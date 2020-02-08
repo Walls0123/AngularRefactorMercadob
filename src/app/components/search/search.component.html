@@ -1,0 +1,144 @@
+<section class="mt-5">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="mb-4" id="mapa-button">
+          <img width="100%" src="https://mercadobodegas.cl/assets/mapa2.svg">
+          <div class="row" id="button-mapa">
+            <button id="modalActivate" type="button" class="btn btn-block" data-toggle="modal"
+              data-target="#exampleModalPreview">
+              Ver Resultados en Mapa
+            </button>
+            <div class="row inline p-0 m-0" id="marcador">
+              <div class="triangulo"></div>
+              <div class="triangulo2"></div>
+            </div>
+          </div>
+        </div>
+        <div id="filtros">
+          <div class="filtro-contenido mt-4">
+            <h3>Filtros</h3>
+            <div id="filtro-tamaño">
+              <p>Tamaño</p>
+              <ul *ngFor="let item of filters;index as i" class="navbar-nav">
+                <li class="nav-item" class="m-2">
+                  <button (click)=this.filertLocals(item,filters[i+1]) [disabled]="!item.isHability"class="w-100 btn card" id="bntfiltro">
+                    <span class="d-inline-flex aling-left w-100">
+                      <span class="icon">
+                        <img [attr.src]=item.urlimg alt="" width="50px" height="50px">
+                      </span>
+                      <span class="mt-3 ml-3">
+                        <p>{{item.longunid+' '+item.unitmetric}}<sup>{{item.nummteric}}</sup></p>
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              </ul>
+              <div class="bg-white"><button class="btn bg-orange white" type="button"><span
+                    class="d-inline-flex text-center align-center"><span> Guía de Tamaños
+                    </span></span></button></div>
+            </div>
+            <div class="mt-3" id="filtro-amenidades">
+              <p class="sf-type sf-type-tiny sf-type-gray sf-type-eyebrow">Características
+              </p>
+              <ul class="grupo-filtro">
+                <!---->
+                <li class="checkbox-item ">
+                  <!---->
+                  <div class="custom-control custom-checkbox "><input
+                      class="custom-control-input ng-untouched ng-pristine ng-valid" type="checkbox"
+                      id="amenidad2"><label class="custom-control-label" for="amenidad2"> Acceso 24 horas </label></div>
+                </li>
+                <li class="checkbox-item ">
+                  <!---->
+                  <div class="custom-control custom-checkbox "><input
+                      class="custom-control-input ng-untouched ng-pristine ng-valid" type="checkbox"
+                      id="amenidad3"><label class="custom-control-label" for="amenidad3"> Primer Piso </label></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="text-center p-5" id="busqueda" style="background-color: #eee;">
+          <!---->
+          <h3 class="">Bodegas disponibles en <span>{{this.pais}}, {{this.region}}</span>.</h3>
+          <!---->
+          <h5 class="mb-3">Encuentra bodegas cerca tuyo.</h5>
+          <form class="form-inline my-2 my-lg-0 row text-center ng-untouched ng-pristine ng-valid" novalidate="">
+            <div class="col-sm-2"></div>
+            <div class="col-md-6 col-xs-12 pr-1 pl-0">
+              <input class="form-control ng-untouched ng-pristine ng-valid w-100 pr-1 pl-0" id="busqueda"
+                name="busqueda" placeholder=" Ingresa dirección, calle, comuna, o ciudad." matInput
+                ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event)"></div>
+            <div class="col-md-2 col-xs-12 pl-0 pr-0"><button style="background-color: #ff6c2f;color: white;"
+                class="btn btn-block white my-2 my-sm-0">Search</button></div>
+            <div class="col-sm-2"></div>
+          </form>
+        </div>
+        <div class="d-flex flex-row justify-content-between align-items-center form-inline">
+          <div class="mt-3 mb-3"> 1 - 10 de 19 bodegas cerca de Santiago, Región
+            Metropolitana </div>
+          <div class="mt-3 mb-3">
+            <div class="form-group"><label class="mr-3" for="select-order">Ordenar por</label><select
+                class="form-control" id="select-order" name="select-order">
+                <option value="distance">Distancia</option>
+                <option value="precio">Precio</option>
+              </select></div>
+          </div>
+          <div class="mt-3 mb-3">
+            <div *ngFor="let item of this.locals| paginate:{itemsPerPage:10,currentPage:currentPage}">
+              <app-local [local]=item></app-local>
+            </div>
+          </div>
+        </div>
+        <style>
+          .my-pagination /deep/ .ngx-pagination .current {
+            background: #FF6C2F;
+          }
+
+          .my-pagination /deep/ .ngx-pagination .current:hover {
+            background-color: black;
+          }
+        </style>
+        <div class="text-center">
+          <pagination-controls [nextLabel]=this.textnext [previousLabel]=this.textprevius class="my-pagination"
+            (pageChange)="currentPage=$event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade right" id="exampleModalPreview" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+    <div class="modal-dialog momodel modal-fluid" role="document">
+      <div class="modal-content ">
+        <div class="h-100" style="background-color: yellow;">
+          <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false"
+            [mapDraggable]="true">
+            <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng"
+              >
+              <agm-info-window [disableAutoPan]=true>
+                <div>
+                  <div class="card">
+                    <h3>Titulo</h3>
+                    <img src="https://www.mercadobodegas.cl/almacenes/public/img/instalaciones/23/BodegasMini_17-58-00_2020-01-22_1.jpg" alt=""
+                    width="25px" height="25px">
+                  </div>
+                </div>
+              </agm-info-window>
+
+            </agm-marker>
+            <!-- Este Es un Marcador -->
+          </agm-map>
+        </div>
+        <div class="row m-2" style="position: absolute;top: 0;z-index: 999;">
+          <button class="btn btn-dark" data-dismiss="modal" aria-label="close">Regresar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

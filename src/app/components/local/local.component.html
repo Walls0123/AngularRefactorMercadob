@@ -1,0 +1,48 @@
+<div class="card mt-4 mb-4 p-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <img class="card-img-top" [attr.src]=this.urlig>
+    </div>
+    <div class="col-sm-8 mt-xs-3">
+      <a href="almacen/{{local.local_id}}">
+        <h4>{{local.local_nombre}}</h4>
+      </a>
+      <h6>{{local.local_direccion}}</h6>
+      <span>
+        {{local.local_distance}} km de Distancia
+      </span>
+      <div class="mt-3">
+        <h5>
+          {{local.local_telefono}}
+        </h5>
+
+      </div>
+      <div>
+        <div class="row m-0" *ngFor="let item of local.unidad">
+          <ng-container *ngIf="item; else elseTemplate">
+            <a class="w-100" href="almacen/{{item.local_id}}?medidas={{item.unidad_area}}" style="color: none;">
+              <div class="d-flex w-100 justify-content-between align-items-center align-self-center ">
+                <div class="row m-0">
+                  <h6>
+                    <b>{{item.unidad_area+' m'}}<sup>2</sup></b>
+                  </h6>
+                </div>
+                <div class="row m-0 oferta">
+                  <h6>{{item.unidad_oferta}}</h6>
+                </div>
+                <div class="row m-0">
+                  <h6><b>$ {{item.unidad_precioMensual}}</b><i class="fas fa-chevron-right float-right ml-2 cyan"></i></h6>
+                </div>
+              </div>
+            </a>
+          </ng-container>
+          <ng-template #elseTemplate>
+
+          </ng-template>
+
+        </div>
+      </div>
+      <a href="/almacen/{{this.local.local_id}}" class="btn float-right dark mt-2" style="background-color: #FF6C2F; color: white;">Ver Detalles</a>
+    </div>
+  </div>
+</div>

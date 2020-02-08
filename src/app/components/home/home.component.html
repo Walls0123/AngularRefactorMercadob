@@ -1,0 +1,75 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<section>
+  <div id="buscador">
+    <div class="container-fluid text-center" id="info1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="text-center w-100">
+            <h1>Todas las mini bodegas en un solo lugar.</h1>
+          </div>
+          <div class="text-center w-100 mb-4">
+            <h2>Cotiza, compara y reserva sin compromiso.</h2>
+          </div>
+        </div>
+        <section>
+          <div class="form-inline my-2 my-lg-0 row text-center">
+            <div class="col-md-2"></div>
+            <div id="inputbuscador"></div>
+            <div  class="col-md-6 p-0">
+              <input class="form-control ng-untouched ng-pristine ng-valid w-100 pr-1 pl-0" id="busqueda"
+                name="busqueda" placeholder=" Ingresa dirección, calle, comuna, o ciudad." matInput
+                ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event)">
+              <div id="errorcar" class="alert alert-danger" *ngIf="this.smserror" role="alert" style="position: absolute;width: 100%;margin-top: 10px;">
+                <span>La longitud minima de busqueda es de 4 caracteres </span>
+              </div>
+            </div>
+            <div class="col-md-2 p-0 ml-2" id="buttonbuscar">
+              <button id="btn" class="btn btn-inline-white btn-block pr-1 pl-0" type="submit" (click)=this.onclick()
+                style="background-color: black;color: white;">Buscar</button>
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-5 mb-5 pt-4">
+    <div class="row">
+      <div class="text-center w-100">
+        <h3 class="mb-2">Prueba nuestro buscador y verás lo fácil que es reservar sin costo
+          tu mini bodega. </h3>
+        <p class="mt-2 mb-5 col-md-8 offset-md-2">MercadoBodegas te permite comparar y
+          filtrar los resultados de tu búsqueda según precios, tamaños y otras características. Elige la mejor opción y
+          luego reserva sin necesidad de registrarte. </p>
+      </div>
+    </div>
+    <!-- Icons -->
+    <div class="row mt-4">
+      <div class="d-flex flex-column col-sm-3 text-center" *ngFor="let icon of this.fase">
+        <fa-icon [icon]="icon.i" [size]="icon.sise" class="mb-3"></fa-icon>
+        <span id="txt">{{icon.text}}</span>
+      </div>
+    </div>
+  </div> <!-- /container -->
+</section>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header border-bottom-0 bgprincipal">
+              <div class="text-center w-100">
+                  <img src="https://mercadobodegas.cl/assets/logo1.svg" alt="">
+              </div>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body p-0 border-bottom-0 bgprincipal">
+              <img class="modal-content border-0"
+                  src="https://www.123dreamit.com/static/new_dream/img/no-resultados_sm.png"
+                  alt="">
+          </div>
+          <div class="modal-footer p-0 bgprincipal">
+              <button id="btnclosemodal" type="button" class="m-0 btn btn-block bgprincipal" style="color: white;" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>

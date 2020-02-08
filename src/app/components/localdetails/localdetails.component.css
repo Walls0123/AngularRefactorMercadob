@@ -1,0 +1,18 @@
+ul{
+  list-style: none;
+}
+.btnfilter{
+  font-size: .85em;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px
+}
+h3,li{
+  text-transform: capitalize;
+}
+.horadia{
+  text-transform: capitalize;
+}
+.btn.bg-white.mb-1.mt-1.btnfilter:focus{
+  background-color: #FF6C2F !important;
+}

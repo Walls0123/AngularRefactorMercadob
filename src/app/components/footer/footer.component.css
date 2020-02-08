@@ -1,0 +1,14 @@
+.redes-link{
+  width: 45px;
+    height: 45px;
+    background: black;
+    border: 1px solid white;
+    border-radius: 50%;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+.i{
+  color: white;
+}

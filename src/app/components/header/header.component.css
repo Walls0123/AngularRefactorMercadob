@@ -1,0 +1,40 @@
+#btn{
+  border: 1px solid rgb(0, 0, 0)
+}
+#btn:active{
+  border: 1px solid rgb(0, 0, 0)
+}
+#btn:focus{
+  border: 1px solid rgb(0, 0, 0)
+}
+a,b{
+  font-size: 16px;
+  color: black;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-size: 16px;
+
+}
+.line{
+  border-bottom-width:2px;
+  border-bottom-color:black;
+  border-bottom-style: solid;
+}
+.line:hover{
+  border-bottom-color: white;
+}
+
+#nav{
+  margin-bottom: 0px;
+  background-color: #FF6C2F;
+}
+
+@media (max-width: 576px) {
+  #navbarSupportedContent{
+    margin-top: 25px;
+  }
+  a{
+    padding-left: 0;
+    margin-top: 10px;
+  }
+}

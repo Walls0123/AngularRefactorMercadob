@@ -1,0 +1,28 @@
+#buscador{
+  background-color: #FF6C2F;
+}
+hr{
+  clear: both;
+  visibility: hidden;
+}
+#info1{
+  padding: 48px;
+}
+
+@media only screen and (max-width: 577px){
+  #txt{
+    margin-bottom: 48px;
+  }
+  #buttonbuscar{
+    margin-left: 0 !important;
+  }
+  #errorcar{
+    position: relative !important;
+    margin-top: 0px !important;
+    margin-bottom: 2px !important;
+  }
+}
+
+.bgprincipal{
+  background-color: #FF6C2F;
+}

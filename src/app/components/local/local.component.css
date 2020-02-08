@@ -1,0 +1,9 @@
+h4,h3,h6,h1{
+  color: black;
+}
+a{
+  text-decoration: none;
+}
+.oferta>h6{
+  color: #00B8E6;
+}
