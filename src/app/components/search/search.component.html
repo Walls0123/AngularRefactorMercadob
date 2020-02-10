@@ -22,7 +22,8 @@
               <p>Tamaño</p>
               <ul *ngFor="let item of filters;index as i" class="navbar-nav">
                 <li class="nav-item" class="m-2">
-                  <button (click)=this.filertLocals(item,filters[i+1]) [disabled]="!item.isHability"class="w-100 btn card" id="bntfiltro">
+                  <button (click)=this.filertLocals(item,filters[i+1]) [disabled]="!item.isHability"
+                    class="w-100 btn card" id="bntfiltro">
                     <span class="d-inline-flex aling-left w-100">
                       <span class="icon">
                         <img [attr.src]=item.urlimg alt="" width="50px" height="50px">
@@ -34,8 +35,9 @@
                   </button>
                 </li>
               </ul>
-              <div class="bg-white"><button class="btn bg-orange white" type="button"><span
-                    class="d-inline-flex text-center align-center"><span> Guía de Tamaños
+              <div class="bg-white"><button data-toggle="modal" data-target="#modalguiatamaño"
+                  class="btn bg-orange white" type="button"><span class="d-inline-flex text-center align-center"><span>
+                      Guía de Tamaños
                     </span></span></button></div>
             </div>
             <div class="mt-3" id="filtro-amenidades">
@@ -79,9 +81,9 @@
           </form>
         </div>
         <div class="d-flex flex-row justify-content-between align-items-center form-inline">
-          <div class="mt-3 mb-3"> 1 - 10 de 19 bodegas cerca de Santiago, Región
+          <div class="mt-3 mb-3 text-center" id="cantidadbodegas"> 1 - 10 de 19 bodegas cerca de Santiago, Región
             Metropolitana </div>
-          <div class="mt-3 mb-3">
+          <div class="mt-3 mb-3" id="ordenarpor">
             <div class="form-group"><label class="mr-3" for="select-order">Ordenar por</label><select
                 class="form-control" id="select-order" name="select-order">
                 <option value="distance">Distancia</option>
@@ -119,14 +121,14 @@
         <div class="h-100" style="background-color: yellow;">
           <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false"
             [mapDraggable]="true">
-            <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng"
-              >
+            <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng">
               <agm-info-window [disableAutoPan]=true>
                 <div>
                   <div class="card">
                     <h3>Titulo</h3>
-                    <img src="https://www.mercadobodegas.cl/almacenes/public/img/instalaciones/23/BodegasMini_17-58-00_2020-01-22_1.jpg" alt=""
-                    width="25px" height="25px">
+                    <img
+                      src="https://www.mercadobodegas.cl/almacenes/public/img/instalaciones/23/BodegasMini_17-58-00_2020-01-22_1.jpg"
+                      alt="" width="25px" height="25px">
                   </div>
                 </div>
               </agm-info-window>
@@ -141,4 +143,49 @@
       </div>
     </div>
   </div>
+  <!-- Modal -->
+
+
+  <button type="button" id="filtrosresponsive" class="btn" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false">
+    Filtros
+  </button>
+  <div class="dropdown-menu" id="showitems">
+    <div class="mt-3" id="filtro-amenidades">
+      <p class="sf-type sf-type-tiny sf-type-gray sf-type-eyebrow">Características
+      </p>
+      <ul class="grupo-filtro p-2">
+        <!---->
+        <li class="checkbox-item ">
+          <!---->
+          <div class="custom-control custom-checkbox "><input
+              class="custom-control-input ng-untouched ng-pristine ng-valid" type="checkbox" id="amenidad2"><label
+              class="custom-control-label" for="amenidad2"> Acceso 24 horas </label></div>
+        </li>
+        <li class="checkbox-item ">
+          <!---->
+          <div class="custom-control custom-checkbox "><input
+              class="custom-control-input ng-untouched ng-pristine ng-valid" type="checkbox" id="amenidad3"><label
+              class="custom-control-label" for="amenidad3"> Primer Piso </label></div>
+        </li>
+      </ul>
+    </div>
+    <p>Tamaño</p>
+    <ul *ngFor="let item of filters;index as i" class="navbar-nav">
+      <li class="nav-item" class="m-2">
+        <button (click)=this.filertLocals(item,filters[i+1]) [disabled]="!item.isHability" class="w-100 btn card"
+          id="bntfiltro">
+          <span class="d-inline-flex aling-left w-100">
+            <span class="icon">
+              <img [attr.src]=item.urlimg alt="" width="50px" height="50px">
+            </span>
+            <span class="mt-3 ml-3">
+              <p>{{item.longunid+' '+item.unitmetric}}<sup>{{item.nummteric}}</sup></p>
+            </span>
+          </span>
+        </button>
+      </li>
+    </ul>
+  </div>
+
 </section>

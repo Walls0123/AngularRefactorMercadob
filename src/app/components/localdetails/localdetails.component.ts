@@ -77,6 +77,7 @@ export class LocaldetailsComponent implements OnInit {
   //             return ex
   //           }
   maplocation: string;
+  errormensaje:string;
   ngOnInit() {
     this.locals = this.procecesdataservice.getDatalocalunit();
 
@@ -146,24 +147,42 @@ export class LocaldetailsComponent implements OnInit {
       }
     });
   }
+  errormensajeenviar:string;
   onSumbit(form: NgForm, id: UnidadEntity) {
-
-    let reserva: ReservaEntity = {
-      reserva_nombre: form.value.firstname,
-      reserva_apellido: form.value.lastname,
-      reserva_email: form.value.email,
-      reserva_telefono: form.value.phone,
-      reserva_fechaMudanza: form.value.fecha,
-      unidad_id: id.unidad_id
-    }
-    console.log(reserva)
-    this.reservaService.sendReserva(reserva).toPromise().then(
-      res => {
-        console.log(res)
-        //TODO: Dependiendo de la respuesta cambiar
+    if(form.value.firstname==''||form.value.lastname==''||
+    form.value.email==''||form.value.phone==''
+    ||form.value.fecha==''){
+      this.errormensaje='Faltan datos'
+    }else{
+      let reserva: ReservaEntity = {
+        reserva_nombre: form.value.firstname,
+        reserva_apellido: form.value.lastname,
+        reserva_email: form.value.email,
+        reserva_telefono: form.value.phone,
+        reserva_fechaMudanza: form.value.fecha,
+        unidad_id: id.unidad_id
 
       }
-    )
+      this.reservaService.sendReserva(reserva).toPromise().then(
+        res => {
+          console.log(res)
+          if (res.status=='OK'){
+            $('#modalconfirmacion').modal('show')
+            this.idreserva=res['items'][0]['cuerpo']['reserva_id'];
+          }
+          else{
+            this.errormensajeenviar='Error de Datos'
+          }
+        }
+      )
+    }
+
+  }
+  idreserva:string;
+  continuarreserva(){
+    console.log(this.idreserva)
+    $('#modalconfirmacion').modal('hide')
+    this.route.navigate(['reservation',this.idreserva])
   }
   filertLocals(f: FilterEntity, f2: FilterEntity) {
     this.locals = this.procecesdataservice.getDataFilterUnitLocals(f, f2);

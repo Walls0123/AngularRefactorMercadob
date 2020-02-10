@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalsEntity, TUnidadesEntity, FilterEntity, LocalEntity, UnidadEntity } from '../components/search/search.component';
-import { empty } from 'rxjs';
-import { isUndefined } from 'util';
+import { empty, Observable } from 'rxjs';
+import { isUndefined, isNull } from 'util';
 import { LocalUnitEntity } from '../interfaces/interfaces.interfaces';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { MapsAPILoader } from '@agm/core';
@@ -20,9 +20,9 @@ export class ProccessdataService {
   localrod: LocalEntity[];
   localrodTransformd: LocalEntity[]
   //**?LocalUnity */
-  localrodunit:LocalUnitEntity
-  localunitrodTransformd:LocalUnitEntity
-  constructor(private mapsAPILoader:MapsAPILoader) {}
+  localrodunit: LocalUnitEntity
+  localunitrodTransformd: LocalUnitEntity
+  constructor(private mapsAPILoader: MapsAPILoader) { }
   //**!Data Filter Unit */
   setDatalocalunit(object: LocalUnitEntity, id: string) {
     //Trans
@@ -52,27 +52,27 @@ export class ProccessdataService {
       )
     });
     let grup = groupBy(caracteristicas, p => p.gruponobre);
-    let obj=[]
+    let obj = []
     this.localrodunit.caracteristicas.forEach(element => {
       let caracteristica = []
       grup.get(element.grupo_caracteristicas.grupo_nombre).forEach(element => {
         caracteristica.push(element['caracteristica'])
       });
       obj.push({
-        grupo:element.grupo_caracteristicas.grupo_nombre,
-        caracteristicas:caracteristica
+        grupo: element.grupo_caracteristicas.grupo_nombre,
+        caracteristicas: caracteristica
       })
     });
-    var caracteristicarefs=Array<GrupoModificado>();
-    var s=Array.from(new Set(grup))
+    var caracteristicarefs = Array<GrupoModificado>();
+    var s = Array.from(new Set(grup))
     s.forEach(element => {
       caracteristicarefs.push({
-        nombregrupo:element['0'],
-        caracteriticas:element['1']
+        nombregrupo: element['0'],
+        caracteriticas: element['1']
       })
     });
     console.log(this.localrodunit)
-    this.localrodunit.caracteristicasmod=caracteristicarefs;
+    this.localrodunit.caracteristicasmod = caracteristicarefs;
 
     return this.localrodunit = this.localrodunit;
 
@@ -80,20 +80,41 @@ export class ProccessdataService {
   }
 
 
-  setdataTransform(object: LocalEntity[], adrres:Address) {
+  setdataTransform(object: LocalEntity[], adrres: Address) {
     //
-    let center=adrres.geometry.location;
-    for (let index = 0; index < object.length; index++) {
-      const element = object[index];
-      let distanceobject=new google.maps.LatLng(element.local_latitud,element.local_longitud);
-      let distanceInKm=google.maps.geometry.spherical.computeDistanceBetween(distanceobject,center)/1000;
-      element.local_distance=Math.round(distanceInKm * 100) / 100;
-      console.log(element)
+    if (isUndefined(adrres)) {
+      let div: HTMLDivElement = document.createElement("div");
+      var placesService = new google.maps.places.PlacesService(div)
+      placesService.getDetails({
+        placeId: "ChIJL68lBEHFYpYRMQkPQDzVdYQ"
+      },(place, status)=>{
+        adrres = <Address>place;
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          let center = adrres.geometry.location;
+          for (let index = 0; index < object.length; index++) {
+            const element = object[index];
+            let distanceobject = new google.maps.LatLng(element.local_latitud, element.local_longitud);
+            let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(distanceobject, center) / 1000;
+            element.local_distance = Math.round(distanceInKm * 100) / 100;
+          }
+        }
+      })
+    } else {
+      let center = adrres.geometry.location;
+      for (let index = 0; index < object.length; index++) {
+        const element = object[index];
+        let distanceobject = new google.maps.LatLng(element.local_latitud, element.local_longitud);
+        let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(distanceobject, center) / 1000;
+        element.local_distance = Math.round(distanceInKm * 100) / 100;
+        console.log(element)
+      }
+
     }
     this.localrod = object;
   }
   getDataTransform(): any {
     this.localrodTransformd = this.localrod;
+
     //**?LengCort */
     return this.localrodTransformd.filter(function (e) {
       let r: UnidadEntity[] = e.unidad;
@@ -113,43 +134,43 @@ export class ProccessdataService {
           // console.log(f1.longunid)
           switch (f1.longunid) {
             case 3:
-              if (e.unidad_area>=1&&e.unidad_area<=3.9){
-                var ex=e.unidad_area>=1&&e.unidad_area<=3.9
+              if (e.unidad_area >= 1 && e.unidad_area <= 3.9) {
+                var ex = e.unidad_area >= 1 && e.unidad_area <= 3.9
                 return ex
               }
             case 5:
               // console.log('Entro')
-              if (e.unidad_area>=4&&e.unidad_area<=5.9){
-                var ex=e.unidad_area>=4&&e.unidad_area<=5.9
+              if (e.unidad_area >= 4 && e.unidad_area <= 5.9) {
+                var ex = e.unidad_area >= 4 && e.unidad_area <= 5.9
                 return ex
               }
               break;
             case 7:
-              if (e.unidad_area>=6&&e.unidad_area<=7.9){
-                var ex=e.unidad_area>=6&&e.unidad_area<=7.9
+              if (e.unidad_area >= 6 && e.unidad_area <= 7.9) {
+                var ex = e.unidad_area >= 6 && e.unidad_area <= 7.9
                 return ex
               }
               break;
             case 10:
-              if (e.unidad_area>=8&&e.unidad_area<=11.9){
-                var ex=e.unidad_area>=8&&e.unidad_area<=11.9
+              if (e.unidad_area >= 8 && e.unidad_area <= 11.9) {
+                var ex = e.unidad_area >= 8 && e.unidad_area <= 11.9
                 return ex
               }
             case 15:
-              if (e.unidad_area>=12&&e.unidad_area<=16.9){
-                var ex=e.unidad_area>=12&&e.unidad_area<=16.9
+              if (e.unidad_area >= 12 && e.unidad_area <= 16.9) {
+                var ex = e.unidad_area >= 12 && e.unidad_area <= 16.9
                 return ex
               }
               break;
             case 20:
-              if (e.unidad_area>=17&&e.unidad_area<=24.9){
-                var ex=e.unidad_area>=17&&e.unidad_area<=24.9
+              if (e.unidad_area >= 17 && e.unidad_area <= 24.9) {
+                var ex = e.unidad_area >= 17 && e.unidad_area <= 24.9
                 return ex
               }
               break;
             case 30:
-              if (e.unidad_area>=25&&e.unidad_area<=999.9){
-                var ex=e.unidad_area>=25&&e.unidad_area<=999.9
+              if (e.unidad_area >= 25 && e.unidad_area <= 999.9) {
+                var ex = e.unidad_area >= 25 && e.unidad_area <= 999.9
                 return ex
               }
               break;
@@ -183,43 +204,43 @@ export class ProccessdataService {
       let e = lt.unidad.filter(function (e) {
         switch (f1.longunid) {
           case 3:
-            if (e.unidad_area>=1&&e.unidad_area<=3.9){
-              var ex=e.unidad_area>=1&&e.unidad_area<=3.9
+            if (e.unidad_area >= 1 && e.unidad_area <= 3.9) {
+              var ex = e.unidad_area >= 1 && e.unidad_area <= 3.9
               return ex
             }
           case 5:
             console.log('Entro')
-            if (e.unidad_area>=4&&e.unidad_area<=5.9){
-              var ex=e.unidad_area>=4&&e.unidad_area<=5.9
+            if (e.unidad_area >= 4 && e.unidad_area <= 5.9) {
+              var ex = e.unidad_area >= 4 && e.unidad_area <= 5.9
               return ex
             }
             break;
           case 7:
-            if (e.unidad_area>=6&&e.unidad_area<=7.9){
-              var ex=e.unidad_area>=6&&e.unidad_area<=7.9
+            if (e.unidad_area >= 6 && e.unidad_area <= 7.9) {
+              var ex = e.unidad_area >= 6 && e.unidad_area <= 7.9
               return ex
             }
             break;
           case 10:
-            if (e.unidad_area>=8&&e.unidad_area<=11.9){
-              var ex=e.unidad_area>=8&&e.unidad_area<=11.9
+            if (e.unidad_area >= 8 && e.unidad_area <= 11.9) {
+              var ex = e.unidad_area >= 8 && e.unidad_area <= 11.9
               return ex
             }
           case 15:
-            if (e.unidad_area>=12&&e.unidad_area<=16.9){
-              var ex=e.unidad_area>=12&&e.unidad_area<=16.9
+            if (e.unidad_area >= 12 && e.unidad_area <= 16.9) {
+              var ex = e.unidad_area >= 12 && e.unidad_area <= 16.9
               return ex
             }
             break;
           case 20:
-            if (e.unidad_area>=17&&e.unidad_area<=24.9){
-              var ex=e.unidad_area>=17&&e.unidad_area<=24.9
+            if (e.unidad_area >= 17 && e.unidad_area <= 24.9) {
+              var ex = e.unidad_area >= 17 && e.unidad_area <= 24.9
               return ex
             }
             break;
           case 30:
-            if (e.unidad_area>=25&&e.unidad_area<=999.9){
-              var ex=e.unidad_area>=25&&e.unidad_area<=999.9
+            if (e.unidad_area >= 25 && e.unidad_area <= 999.9) {
+              var ex = e.unidad_area >= 25 && e.unidad_area <= 999.9
               return ex
             }
             break;

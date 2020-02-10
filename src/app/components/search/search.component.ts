@@ -6,6 +6,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { MapsAPILoader } from '@agm/core';
 import { Geometry } from 'ngx-google-places-autocomplete/objects/geometry';
 import { SeacrchService } from 'src/app/services/seacrch.service';
+import 'jquery'
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -22,49 +23,49 @@ export class SearchComponent implements OnInit {
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_1.svg",
       nummteric: 2,
       longunid: 3,
-      isHability:true
+      isHability: true
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_2.svg",
       nummteric: 2,
       longunid: 5,
-      isHability:true
+      isHability: true
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_3.svg",
       nummteric: 2,
       longunid: 7,
-      isHability:true
+      isHability: true
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_4.svg",
       nummteric: 2,
       longunid: 10,
-      isHability:true
+      isHability: true
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_5.svg",
       nummteric: 2,
       longunid: 15,
-      isHability:true
+      isHability: true
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_6.svg",
       nummteric: 2,
       longunid: 20,
-      isHability:true
+      isHability: true
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_7.svg",
       nummteric: 2,
       longunid: 30,
-      isHability:true
+      isHability: true
     }]
   urlicon: string = "https://es.seaicons.com/wp-content/uploads/2015/10/Warehouse-icon.png"
   textnext: string = 'Siguiente'
@@ -79,45 +80,31 @@ export class SearchComponent implements OnInit {
       this.comuna = this.activatedRoute.snapshot.paramMap.get('comuna');
       //Consulta A la Base de Datos Si es Posible Para Filtrar
       this.activatedRoute.data.subscribe((data:
-        { locals: LocalEntity[] })=>{
-        this.procecesdataservice.setdataTransform(data.locals,<Address>(searchplace));
-      });
-
-    }
-    else{
-      this.activatedRoute.data.subscribe((data: { locals: LocalEntity[] }) => {
-        let searchplace = this.searchservice.getObjectSearching();
+        { locals: LocalEntity[] }) => {
         this.procecesdataservice.setdataTransform(data.locals, <Address>(searchplace));
-        // console.log(data.locals);
-        this.region = this.activatedRoute.snapshot.paramMap.get('region')
-        this.pais = this.activatedRoute.snapshot.paramMap.get('pais')
-        this.comuna = this.activatedRoute.snapshot.paramMap.get('comuna')
-        //Variable Serach
-        let bpais = this.activatedRoute.snapshot.paramMap.get('pais')
-        let bregion = this.activatedRoute.snapshot.paramMap.get('region')
-        let bprovince = this.activatedRoute.snapshot.paramMap.get('province')
-        let bcomuna = this.activatedRoute.snapshot.paramMap.get('comuna')
-        {
-          this.mapsAPILoader.load().then(() => {
-
-            let autocomplete = new google.maps.places.AutocompleteService();
-            autocomplete.getPlacePredictions(
-              {
-                input: bpais,
-                componentRestrictions: { country: 'cl' }
-              },
-              (pre, status) => {
-                console.log(pre)
-              })
-          })
-        }
-      })
+      });
+    } else {
+      let adr: Address
+      this.activatedRoute.data.subscribe((data:
+        { locals: LocalEntity[] }) => {
+        this.procecesdataservice.setdataTransform(data.locals, adr);
+      });
     }
-
   }
   filertLocals(f: FilterEntity, f2: FilterEntity) {
     console.log(f, f2);
     this.locals = this.procecesdataservice.getDataFilert(f, f2);
+  }
+  Ordernamiento(){
+    let or=this.locals.sort((a,b)=>{
+      if(a.local_distance<b.local_distance){
+        return -1
+      }else if(a.local_distance>b.local_distance){
+        return 1
+      }
+      return 0
+    })
+    return or
   }
   comuna: string;
   region: string;
@@ -146,17 +133,39 @@ export class SearchComponent implements OnInit {
   //Markers
   markers: marker[] = []
   ngOnInit() {
+    // $('#filtrosresponsive').click(function() {
+    //   $('#showitems').dropdown('update')
+    //   $('#showitems').dropdown().show()
+    // })
 
+    $('#select-order').change(()=>{
+      if($('#select-order').val()=='distance'){
+        this.locals=this.Ordernamiento();
+      }
+      if($('#select-order').val()=='precio'){
+        console.log('precio')
+      }
+    })
+    this.region = this.activatedRoute.snapshot.paramMap.get('region');
+    this.pais = this.activatedRoute.snapshot.paramMap.get('pais');
+    this.comuna = this.activatedRoute.snapshot.paramMap.get('comuna');
+    $("#filtrosresponsive").hide()
+    $(function () {
+      $(window).scroll(function () {
+
+        if ($(window).scrollTop() > 300) {
+          $("#filtrosresponsive").fadeIn();//.fadeOut();
+        } else {
+          $("#filtrosresponsive").fadeOut();//.fadeIn();
+        }
+      });
+    });
     this.locals = this.procecesdataservice.getDataTransform();
-    //
-
     this.locals.forEach(element => {
       this.lat = element.local_latitud;
       this.lng = element.local_longitud;
       this.markers.push({ lat: element.local_latitud, lng: element.local_longitud, label: 'xd', id: element.local_id })
     });
-
-
   }
 }
 interface marker {
@@ -171,7 +180,7 @@ export interface FilterEntity {
   longunid: number;
   unitmetric: string;
   nummteric: number;
-  isHability:boolean
+  isHability: boolean
 }
 export interface LocalsEntity {
   idInstalacion: number;
@@ -256,7 +265,7 @@ export interface LocalEntity {
   local_nDiasDeReserva: string;
   local_estaBorrado: string;
   unidad?: (UnidadEntity | null)[] | null;
-  local_distance:number
+  local_distance: number
 }
 export interface UnidadEntity {
   unidad_id: number;

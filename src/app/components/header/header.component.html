@@ -1,29 +1,126 @@
 <header>
   <nav id="nav" class="navbar navbar-expand-lg max-1440 pt-4"><a class="navbar-brand padding-logo mr-0" routerlink="/"
-    href="/">
-    <img src="https://mercadobodegas.cl/assets/logo1.svg" alt="">
-  </a><button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btn"
-    class="navbar-toggler custom-toggler" data-target="#navbarSupportedContent" data-toggle="collapse"
-    type="button"><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png"
-      width="30px" height="30px"></button>
-  <div class="collapse navbar-collapse black" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto"></ul>
-    <div class="nav-item ml-3 mr-3 line"><a href="/" class="nav-link">
-        <b>Bodegas cerca tuyo</b>
-      </a></div>
-    <div class="nav-item ml-3 mr-3 line"><a href="/" class="nav-link"><b>Guía de tamaños</b>
-      </a>
+      href="/">
+      <img src="https://mercadobodegas.cl/assets/logo1.svg" alt="">
+    </a><button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btn"
+      class="navbar-toggler custom-toggler" data-target="#navbarSupportedContent" data-toggle="collapse"
+      type="button"><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png"
+        width="30px" height="30px"></button>
+    <div class="collapse navbar-collapse black" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto"></ul>
+      <div class="nav-item ml-3 mr-3 line"><a href="/" class="nav-link">
+          <b>Bodegas cerca tuyo</b>
+        </a></div>
+      <div class="nav-item ml-3 mr-3 line"><a href="#" data-toggle="modal" data-target="#modalguiatamaño"
+          class="nav-link"><b>Guía de tamaños</b>
+        </a>
+      </div>
+      <div class="nav-item ml-3 mr-3 line clickable text-right text-sm-left" id="telefonoContacto">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link" data-toggle="dropdown"
+          id="contacto"><b>Contacto</b>
+        </a>
+        <div aria-labelledby="contacto" id="desplegable" class="dropdown-menu dropdown-menu-right dropdown-custom"><a
+            class="dropdown-item dropdown-item-custom" href="#"><i class="far fa-envelope"></i>
+            contacto@mercadobodegas.cl </a><a class="dropdown-item dropdown-item-custom" href="#"><i
+              class="fas fa-phone-alt"></i> (+56) 955 - 9595 -599 </a></div>
+      </div>
     </div>
-    <div class="nav-item ml-3 mr-3 line clickable text-right text-sm-left" id="telefonoContacto">
-      <a aria-expanded="false" aria-haspopup="true" class="nav-link" data-toggle="dropdown"
-        id="contacto"><b>Contacto</b>
-      </a>
-      <div aria-labelledby="contacto" class="dropdown-menu dropdown-menu-right dropdown-custom"><a
-          class="dropdown-item dropdown-item-custom" href="#"><i class="far fa-envelope"></i>
-          contacto@mercadobodegas.cl </a><a class="dropdown-item dropdown-item-custom" href="#"><i
-            class="fas fa-phone-alt"></i> (+56) 955 - 9595 -599 </a></div>
+    <div id="modalguiatamaño" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0 bgprincipal">
+            <div class="text-center w-100">
+              <img  src="https://mercadobodegas.cl/assets/logo1.svg" alt="">
+            </div>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body p-0 overflow-auto">
+            <div class="container-fluid">
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_1.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>3 m²</h4>
+                  <h6>Es como un closet completo, tamaño ideal para guardar toda la ropa de
+                    la temporada de invierno o verano, o una buena opción de bodega para pequeños negocios.</h6>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_2.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>5 m²</h4>
+                  <h6>Del tamaño de un walk-in closet, puede guardarse toda una pieza
+                    incluyendo colchones y bases de cama, sets de sabanas y frazadas, sofá, escritorio, sillas y algunas
+                    cajas.</h6>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_3.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>7 m²</h4>
+                  <h6>Es como un walk-in closet grande, donde podrían guardarse todo el
+                    contenido de una habitación normal, más un comedor grande con sus sillas, y un lavadora de ropa.
+                  </h6>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_4.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>10 m²</h4>
+                  <h6>Como una habitación pequeña, suficiente para todo el contenido de una
+                    habitación grande, incluyendo cama, escritorio, sillas, más refrigerador, lavadora y secadora, y
+                    espacio para varias cajas.</h6>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_5.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>15 m²</h4>
+                  <h6>Similar a un estacionamiento para un auto, puede guardarse el
+                    contenido de hasta cuatro habitaciones, considerando varios sets de camas, escritorios, sets de
+                    mesas y sillas de terraza, y más cajas. </h6>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_6.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>20 m²</h4>
+                  <h6> Como un estacionamiento grande para camionetas, para guardar hasta
+                    tres habitaciones grandes considerando camas, cómodas, escritorios y otros muebles grandes. Pueden
+                    incluso guardarse autos grandes, y furgones. </h6>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3 text-center"><img class="imgguide"
+                    src="https://mercadobodegas.cl/almacenes/public/img/img_7.svg">
+                </div>
+                <div class="col-md-9 text-center">
+                  <h4>30 m²</h4>
+                  <h6>Como un estacionamiento grande para dos autos, pueden guardarse todas
+                    las cosas de una casa de 3 o más habitaciones completa, incluyendo muebles grandes, comedor, sillas,
+                    escritorios y mesas, camas, lavadoras, refrigeradores, bicicletas, quedando aún espacio para cajas y
+                    más cosas.</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-0 bgprincipal">
+            <button id="btnclosemodal" type="button" class="m-0 btn btn-block bgprincipal" style="color: white;"
+              data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </header>
-

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MetacolorService } from 'src/app/services/metacolor.service';
 
 @Component({
   selector: 'app-site',
@@ -6,9 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./site.component.css']
 })
 export class SiteComponent implements OnInit {
-
-  constructor() { }
-
+  constructor(private colorservice:MetacolorService) { }
   ngOnInit() {
   }
 

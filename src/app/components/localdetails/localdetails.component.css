@@ -16,3 +16,6 @@ h3,li{
 .btn.bg-white.mb-1.mt-1.btnfilter:focus{
   background-color: #FF6C2F !important;
 }
+.bgprincipal{
+  background-color: #FF6C2F;
+}

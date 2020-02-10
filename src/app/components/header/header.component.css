@@ -28,7 +28,20 @@ a,b{
   margin-bottom: 0px;
   background-color: #FF6C2F;
 }
-
+#desplegable{
+  align-items: center;
+  background-color: black;
+}
+#desplegable>a{
+  color: white;
+}
+.bgprincipal{
+  background-color: #FF6C2F;
+}
+img.imgguide{
+  width: 100px;
+  height: 100px;
+}
 @media (max-width: 576px) {
   #navbarSupportedContent{
     margin-top: 25px;
@@ -37,4 +50,9 @@ a,b{
     padding-left: 0;
     margin-top: 10px;
   }
+  #desplegable{
+    text-align: center;
+    width: 100%;
+  }
+
 }

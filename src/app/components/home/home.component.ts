@@ -9,6 +9,7 @@ import { SizeProp, IconProp } from '@fortawesome/fontawesome-svg-core';
 import { MapsAPILoader } from '@agm/core'
 import 'jquery'
 import { SeacrchService } from 'src/app/services/seacrch.service';
+import { MetacolorService } from 'src/app/services/metacolor.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,9 +17,14 @@ import { SeacrchService } from 'src/app/services/seacrch.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router, private mapsApiloader: MapsAPILoader, private ngZone: NgZone,private searchservice:SeacrchService) { }
-  ngOnInit() {
+  constructor(private colometa:MetacolorService, private router: Router, private mapsApiloader: MapsAPILoader, private ngZone: NgZone,private searchservice:SeacrchService) {
+    let color = '#2ecc71';
+    this.colometa.changeThemeColorUsingMeta(color);
+  }
+  name = 'Angular';
 
+  ngOnInit() {
+    $('#exampleModalPreview').modal().hide()
     $('#busqueda').focus(()=>{
       $('#errorcar').hide(2000)
       this.smserror=false
@@ -114,6 +120,7 @@ export class HomeComponent implements OnInit {
     placesService.getDetails({
       placeId:object.place_id
     },(place,status) =>{
+      console.log(place)
       if (status===google.maps.places.PlacesServiceStatus.OK) {
         place.address_components.forEach(element => {
           this.searchsites.push(element.long_name)
