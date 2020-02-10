@@ -40,7 +40,7 @@ import {FormsModule} from '@angular/forms'
     MapComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     NgxPaginationModule,
