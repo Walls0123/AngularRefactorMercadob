@@ -10,7 +10,7 @@ import { Options } from 'ngx-google-places-autocomplete/objects/options/options'
 export class ReservaService {
   constructor(private http: HttpClient) { }
   url: string = "http://localhost:3001/ping/"
-  url2: string = "http://amdigital.tech/api/reservas/"
+  url2: string = "http://amdigital.tech/api/reservas/buscarReserva/"
   url3: string = "http://amdigital.tech/api/reservas/insertarReserva"
   sendReserva(reserva: ReservaEntity): Observable<any> {
     const requestOptions: Object = {

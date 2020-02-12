@@ -10,6 +10,7 @@ export class LocalsService {
   private usersEndpoint = "https://jsonplaceholder.typicode.com/users";
   private localsurl="http://localhost:3000/locals/";
   private urlrod:string="http://amdigital.tech/api/"
+  private urlrodseacrh:string="http://amdigital.tech/api/"
   getData():boolean{
 
     return true;

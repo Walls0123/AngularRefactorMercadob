@@ -3,19 +3,38 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProccessdataService } from 'src/app/services/proccessdata.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { MapsAPILoader } from '@agm/core';
+import { MapsAPILoader, AgmInfoWindow } from '@agm/core';
 import { Geometry } from 'ngx-google-places-autocomplete/objects/geometry';
 import { SeacrchService } from 'src/app/services/seacrch.service';
 import 'jquery'
+import { isEmpty } from 'rxjs/operators';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  //**!Close Agm */
+  currentIW: AgmInfoWindow;
+  previousIW: AgmInfoWindow;
+  mapClick() {
+    if (this.previousIW) {
+      this.previousIW.close();
+    }
+  }
+
+  markerClick(infoWindow) {
+    if (this.previousIW) {
+      this.currentIW = infoWindow;
+      this.previousIW.close();
+    }
+    this.previousIW = infoWindow;
+  }
   //**!Propeties */
   filter: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   currentPage: number = 1;
+  //**?Cantidad de Locales
+  isLocasAvabali = true;
   //**? FilterObject*/
   filters: FilterEntity[] = [
     {
@@ -23,50 +42,69 @@ export class SearchComponent implements OnInit {
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_1.svg",
       nummteric: 2,
       longunid: 3,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_2.svg",
       nummteric: 2,
       longunid: 5,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_3.svg",
       nummteric: 2,
       longunid: 7,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_4.svg",
       nummteric: 2,
       longunid: 10,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_5.svg",
       nummteric: 2,
       longunid: 15,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_6.svg",
       nummteric: 2,
       longunid: 20,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_7.svg",
       nummteric: 2,
       longunid: 30,
-      isHability: true
+      isHability: true,
+      isChecked: false
     }]
+  filtersforCaracteristics: FilterCaracteristicasEntity[] = [
+    {
+      id: 'fil1',
+      nombre: 'Acceso 24 horas',
+      state: false
+    },
+    {
+      id: 'fil2',
+      nombre: 'Primer Piso',
+      state: false
+    }
+  ]
   urlicon: string = "https://es.seaicons.com/wp-content/uploads/2015/10/Warehouse-icon.png"
   textnext: string = 'Siguiente'
   textprevius: string = 'Anterior'
@@ -90,16 +128,72 @@ export class SearchComponent implements OnInit {
         this.procecesdataservice.setdataTransform(data.locals, adr);
       });
     }
+    this.currentIW = null;
+    this.previousIW = null;
   }
   filertLocals(f: FilterEntity, f2: FilterEntity) {
-    console.log(f, f2);
-    this.locals = this.procecesdataservice.getDataFilert(f, f2);
+    if (f.isChecked) {
+      if (this.filterby24) {
+        this.locals = this.procecesdataservice.getDataFilterbyCaracteristicasByAcceso24HorasAll(this.filterbycaracte);
+      } else if (this.filterby1erpiso) {
+        this.locals = this.procecesdataservice.getDataFilterbyCaracteristicasByPisoAll(this.filterbycaracte);
+      } else {
+        this.locals = this.procecesdataservice.getDataTransform();
+        f.isChecked = false;
+        this.filteractual.isChecked = false;
+      }
+
+    } else {
+      this.locals = this.procecesdataservice.getDataFilert(f, f2);
+      this.filters.forEach(element => {
+        element.isChecked = false
+      });
+      f.isChecked = true;
+      this.filteractual = f
+    }
   }
-  Ordernamiento(){
-    let or=this.locals.sort((a,b)=>{
-      if(a.local_distance<b.local_distance){
+  filterbycaracte: FilterCaracteristicasEntity = {
+    id: 'default',
+    nombre: 'filt',
+    state: false
+  }
+  filteractual: FilterEntity = {
+    urlimg: 'default',
+    longunid: 0,
+    unitmetric: '',
+    nummteric: 1,
+    isHability: false,
+    isChecked: false,
+  };
+  filterby24: boolean = false;
+  filterby1erpiso: boolean = false;
+  filtrarforcaracteristicas(fic1: FilterCaracteristicasEntity, fic2: FilterCaracteristicasEntity) {
+    if (this.filteractual.isChecked) {
+      console.log('filtrarPorCaracteristicaPasandoleElArrayActualFiltrado')
+    } else {
+      if (fic2.state && fic1.state) {
+        this.filterby24 = true;
+        this.locals = this.procecesdataservice.getDataFilterbyCaracteristicasByPisoandByAcceso24HorasAll(fic2)
+      }
+      else if (fic1.state) {
+        this.locals = this.procecesdataservice.getDataFilterbyCaracteristicasByAcceso24HorasAll(fic2);
+      } else if (fic2.state) {
+        this.filterby1erpiso = true;
+        this.locals = this.procecesdataservice.getDataFilterbyCaracteristicasByPisoAll(fic2);
+
+      } else {
+        this.locals = this.procecesdataservice.getDataTransform();
+        this.filterby1erpiso = false;
+        this.filterby24 = false;
+      }
+    }
+
+  }
+  Ordernamiento() {
+    let or = this.locals.sort((a, b) => {
+      if (a.local_distance < b.local_distance) {
         return -1
-      }else if(a.local_distance>b.local_distance){
+      } else if (a.local_distance > b.local_distance) {
         return 1
       }
       return 0
@@ -110,7 +204,7 @@ export class SearchComponent implements OnInit {
   region: string;
   pais: string;
   locals: LocalEntity[];
-  zoom: number = 10;
+  zoom: number = 13;
   lat: number = -16.4090474;
   lng: number = -71.53745099999998
   agmFitBounds = true;
@@ -138,11 +232,11 @@ export class SearchComponent implements OnInit {
     //   $('#showitems').dropdown().show()
     // })
 
-    $('#select-order').change(()=>{
-      if($('#select-order').val()=='distance'){
-        this.locals=this.Ordernamiento();
+    $('#select-order').change(() => {
+      if ($('#select-order').val() == 'distance') {
+        this.locals = this.Ordernamiento();
       }
-      if($('#select-order').val()=='precio'){
+      if ($('#select-order').val() == 'precio') {
         console.log('precio')
       }
     })
@@ -152,22 +246,51 @@ export class SearchComponent implements OnInit {
     $("#filtrosresponsive").hide()
     $(function () {
       $(window).scroll(function () {
-
-        if ($(window).scrollTop() > 300) {
-          $("#filtrosresponsive").fadeIn();//.fadeOut();
-        } else {
-          $("#filtrosresponsive").fadeOut();//.fadeIn();
+        if ($(window).width() <= 576) {
+          if ($(window).scrollTop() > 300) {
+            $("#filtrosresponsive").fadeIn();//.fadeOut();
+          } else {
+            $("#filtrosresponsive").fadeOut();//.fadeIn();
+          }
+          // is mobile device
         }
+        else {
+          $("#filtrosresponsive").css('display', 'none')
+        }
+
       });
     });
     this.locals = this.procecesdataservice.getDataTransform();
-    this.locals.forEach(element => {
+    for (let index = 0; index < this.locals.length; index++) {
+      const element = this.locals[index];
+      //Comprobacion de longitud 0 Razon ... Hay Arrays que Tienen longitud mayor a 0 pero con elementos Vacios
+      if (element.unidad[0] == null) {
+        console.log(element)
+        this.locals.splice(index, 1)
+      }
       this.lat = element.local_latitud;
       this.lng = element.local_longitud;
       this.markers.push({ lat: element.local_latitud, lng: element.local_longitud, label: 'xd', id: element.local_id })
-    });
+    }
+    let div: HTMLDivElement = document.createElement("div");
+    var placesService = new google.maps.places.PlacesService(div)
+    placesService.getDetails({
+      placeId: "ChIJL68lBEHFYpYRMQkPQDzVdYQ"
+    }, (place, status) => {
+
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        let center = place.geometry.location;
+        for (let index = 0; index < this.locals.length; index++) {
+          const element = this.locals[index];
+          let distanceobject = new google.maps.LatLng(element.local_latitud, element.local_longitud);
+          let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(distanceobject, center) / 1000;
+          element.local_distance = Math.round(distanceInKm * 100) / 100;
+        }
+      }
+    })
   }
 }
+
 interface marker {
   lat: number;
   lng: number;
@@ -175,12 +298,18 @@ interface marker {
   id: number
 
 }
+export interface FilterCaracteristicasEntity {
+  id: string
+  nombre: string;
+  state: boolean
+}
 export interface FilterEntity {
   urlimg: string;
   longunid: number;
   unitmetric: string;
   nummteric: number;
-  isHability: boolean
+  isHability: boolean;
+  isChecked: boolean;
 }
 export interface LocalsEntity {
   idInstalacion: number;
@@ -267,6 +396,25 @@ export interface LocalEntity {
   unidad?: (UnidadEntity | null)[] | null;
   local_distance: number
 }
+export interface LocalEntity {
+  local_id: number;
+  local_nombre: string;
+  local_descripcion: string;
+  empresa_id: number;
+  local_telefono: number;
+  local_email: string;
+  local_pais: string;
+  local_region: string;
+  local_provincia: string;
+  local_comuna: string;
+  local_direccion: string;
+  usuario_id: number;
+  local_latitud: number;
+  local_longitud: number;
+  local_nDiasDeReserva: string;
+  local_estaBorrado: string;
+  unidad?: (UnidadEntity)[] | null;
+}
 export interface UnidadEntity {
   unidad_id: number;
   unidad_precioMensual: string;
@@ -275,4 +423,10 @@ export interface UnidadEntity {
   local_id: number;
   unidad_estaBorrado: string;
   unidad_estaDisponible: string;
+  caracteristicas?: (CaracteristicasEntity)[] | null;
 }
+export interface CaracteristicasEntity {
+  caracteristicasUnidad_id: number;
+  caracteristicasUnidad_nombre: string;
+}
+

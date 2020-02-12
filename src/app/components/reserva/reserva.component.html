@@ -90,9 +90,9 @@
           </div>
           <div class="col-sm-6 card">
             <h1>Instalacion</h1>
-            <span>Nobre Intalacion</span><br>
-            <span>Direccion Intalacion</span><br>
-            <span>Nobre Intalacion</span><br>
+            <span>{{this.reservas.unidad.local.local_nombre}}</span><br>
+            <span>{{this.reservas.unidad.local.local_direccion}}</span><br>
+            <span>{{this.reservas.unidad.local.local_telefono}}</span><br>
             <button class="btn btn-danger btn-block">Cancelar Reserva</button>
           </div>
         </div>
@@ -101,12 +101,12 @@
     <div class="col-md-5">
       <div class="card" style="background: black; color: white;">
         <div class="card-body">
-          <h3>Tu Unidad</h3><span>Área: 12 m<sup>2</sup></span><br>
+          <h3>Tu Unidad</h3><span>Área: {{this.reservas.unidad.unidad_area}} m<sup>2</sup></span><br>
           <!---->
           <div class="w-100 d-flex flex-row d-flex justify-content-between align-items-center">
             <h5>Renta mensual</h5>
             <div class="text-center">
-              <h3>$ {{this.reservas.unidad_id}}</h3><span>por mes</span>
+              <h3>$ {{this.reservas.unidad.unidad_precioMensual}}</h3><span>por mes</span>
             </div>
           </div>
         </div>

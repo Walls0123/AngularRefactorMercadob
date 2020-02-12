@@ -2,15 +2,27 @@ ul{
   list-style: none;
 }
 #bntfiltro:hover{
-  background-color:#ff6c2f; /* Green */
+  background-color:#ff6c2f !important; /* Green */
   color: white;
 }
-#bntfiltro:active{
-  background-color:#ff6c2f; /* Green */
-  color: white;
+#bntfiltro{
+  box-shadow:none !important;
+
 }
-#bntfiltro:focus{
-  background:#ff6c2f;
+/* Remove and Change Color  */
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #ff6c2f!important;
+  border-color: #ff6c2f!important;
+}
+.custom-checkbox .custom-control-input:checked:focus ~ .custom-control-label::before {
+  box-shadow:none !important;
+  border-color: #ff6c2f!important;
+}
+.custom-checkbox .custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow:none !important;
+}
+.custom-checkbox .custom-control-input:active ~ .custom-control-label::before {
+  background-color: #ff6c2f;
 }
 .modal-dialog {
   width: 100% !important;
@@ -83,7 +95,6 @@ agm-map {
     display: none;
   }
   #filtrosresponsive{
-    display:block;
     width: 200px;
     height: auto;
     color: white;
@@ -96,5 +107,8 @@ agm-map {
     overflow: auto;
     height: 90%;
     left: -5px !important;
+  }
+  .agminfo{
+    width: 100% !important;
   }
 }

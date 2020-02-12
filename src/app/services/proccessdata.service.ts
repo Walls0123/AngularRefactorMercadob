@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalsEntity, TUnidadesEntity, FilterEntity, LocalEntity, UnidadEntity } from '../components/search/search.component';
+import { LocalsEntity, TUnidadesEntity, FilterEntity, LocalEntity, UnidadEntity, FilterCaracteristicasEntity } from '../components/search/search.component';
 import { empty, Observable } from 'rxjs';
 import { isUndefined, isNull } from 'util';
 import { LocalUnitEntity } from '../interfaces/interfaces.interfaces';
@@ -87,7 +87,7 @@ export class ProccessdataService {
       var placesService = new google.maps.places.PlacesService(div)
       placesService.getDetails({
         placeId: "ChIJL68lBEHFYpYRMQkPQDzVdYQ"
-      },(place, status)=>{
+      }, (place, status) => {
         adrres = <Address>place;
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           let center = adrres.geometry.location;
@@ -108,12 +108,12 @@ export class ProccessdataService {
         element.local_distance = Math.round(distanceInKm * 100) / 100;
         console.log(element)
       }
-
     }
-    this.localrod = object;
+    this.localrod = object
   }
   getDataTransform(): any {
-    this.localrodTransformd = this.localrod;
+
+    this.localrodTransformd = JSON.parse(JSON.stringify(this.localrod));
 
     //**?LengCort */
     return this.localrodTransformd.filter(function (e) {
@@ -138,6 +138,7 @@ export class ProccessdataService {
                 var ex = e.unidad_area >= 1 && e.unidad_area <= 3.9
                 return ex
               }
+              break;
             case 5:
               // console.log('Entro')
               if (e.unidad_area >= 4 && e.unidad_area <= 5.9) {
@@ -156,6 +157,7 @@ export class ProccessdataService {
                 var ex = e.unidad_area >= 8 && e.unidad_area <= 11.9
                 return ex
               }
+              break;
             case 15:
               if (e.unidad_area >= 12 && e.unidad_area <= 16.9) {
                 var ex = e.unidad_area >= 12 && e.unidad_area <= 16.9
@@ -189,9 +191,114 @@ export class ProccessdataService {
       } else {
         lt2.push(element);
       }
+
     }
     lt = [...lt2];
     return lt;
+  }
+  getDataFilterbyCaracteristicasByPisoAll(fic:FilterCaracteristicasEntity): LocalEntity[] {
+
+    var lt= JSON.parse(JSON.stringify(this.localrod));
+    // console.log(lt);
+    for (let index = 0; index < lt.length; index++) {
+      var element = lt[index];
+      var es = element.unidad.filter(function (e) {
+        if (isUndefined(e)) {
+        } else if (e != undefined) {
+          // console.log(f1.longunid)
+          for (let index = 0; index < e.caracteristicas.length; index++) {
+            const element = e.caracteristicas[index];
+            if(element.caracteristicasUnidad_nombre=='Primer piso'){
+              return e
+            }
+          }
+        }
+      })
+      element.unidad = es;
+    }
+    let lt2: LocalsEntity[] = [];
+    for (let index = 0; index < lt.length; index++) {
+      const element = lt[index];
+      if (element.unidad.length == 0) {
+      } else {
+        lt2.push(element);
+      }
+    }
+    lt = [...lt2];
+    return lt;
+
+  }
+  getDataFilterbyCaracteristicasByAcceso24HorasAll(fic:FilterCaracteristicasEntity): LocalEntity[] {
+
+    var lt= JSON.parse(JSON.stringify(this.localrod));
+    // console.log(lt);
+    for (let index = 0; index < lt.length; index++) {
+      var element = lt[index];
+      var es = element.unidad.filter(function (e) {
+        if (isUndefined(e)) {
+        } else if (e != undefined) {
+          // console.log(f1.longunid)
+          for (let index = 0; index < e.caracteristicas.length; index++) {
+            const element = e.caracteristicas[index];
+            if(element.caracteristicasUnidad_nombre=='Acceso 24 horas'){
+              return e
+            }
+          }
+        }
+      })
+      element.unidad = es;
+    }
+    let lt2: LocalsEntity[] = [];
+    for (let index = 0; index < lt.length; index++) {
+      const element = lt[index];
+      if (element.unidad.length == 0) {
+      } else {
+        lt2.push(element);
+      }
+    }
+    lt = [...lt2];
+    return lt;
+
+  }
+  getDataFilterbyCaracteristicasByPisoandByAcceso24HorasAll(fic:FilterCaracteristicasEntity): LocalEntity[] {
+
+    var lt= JSON.parse(JSON.stringify(this.localrod));
+    // console.log(lt);
+    for (let index = 0; index < lt.length; index++) {
+      var element = lt[index];
+      var es = element.unidad.filter(function (e) {
+        if (isUndefined(e)) {
+        } else if (e != undefined) {
+          // console.log(f1.longunid)
+          let c1=false;
+          let c2=false;
+          for (let index = 0; index < e.caracteristicas.length; index++) {
+            const element = e.caracteristicas[index];
+            if(element.caracteristicasUnidad_nombre=='Acceso 24 horas'){
+              c1=true
+            }
+            if(element.caracteristicasUnidad_nombre=='Primer piso'){
+              c2=true
+            }
+            if(c1&&c2){
+              return e
+            }
+          }
+        }
+      })
+      element.unidad = es;
+    }
+    let lt2: LocalsEntity[] = [];
+    for (let index = 0; index < lt.length; index++) {
+      const element = lt[index];
+      if (element.unidad.length == 0) {
+      } else {
+        lt2.push(element);
+      }
+    }
+    lt = [...lt2];
+    return lt;
+
   }
   state: number;
   //**?Data Filter by Unit Locals */

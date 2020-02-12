@@ -77,7 +77,7 @@ export class LocaldetailsComponent implements OnInit {
   //             return ex
   //           }
   maplocation: string;
-  errormensaje:string;
+  errormensaje: string;
   ngOnInit() {
     this.locals = this.procecesdataservice.getDatalocalunit();
 
@@ -100,60 +100,57 @@ export class LocaldetailsComponent implements OnInit {
 
 
     this.locals.unidad.forEach(e => {
-      if (e.unidad_area >= 1 && e.unidad_area <= 3.9) {
+      if (e.unidad_area >= 1 || e.unidad_area <= 3.9) {
         this.filters[0].isHability = true
       } else {
         this.filters[0].isHability = false
       }
-
-      if (e.unidad_area >= 4 && e.unidad_area <= 5.9) {
+      if (e.unidad_area >= 4 || e.unidad_area <= 5.9) {
         this.filters[1].isHability = true
       }
       else {
         this.filters[1].isHability = false
       }
-
-      if (e.unidad_area >= 6 && e.unidad_area <= 7.9) {
+      if (e.unidad_area >= 6 || e.unidad_area <= 7.9) {
         this.filters[2].isHability = true
       }
       else {
         this.filters[2].isHability = false
       }
-
-      if (e.unidad_area >= 8 && e.unidad_area <= 11.9) {
+      if (e.unidad_area >= 8 || e.unidad_area <= 11.9) {
         this.filters[3].isHability = true
       }
       else {
         this.filters[3].isHability = false
       }
-      if (e.unidad_area >= 12 && e.unidad_area <= 16.9) {
+      if (e.unidad_area >= 12 || e.unidad_area <= 16.9) {
         this.filters[4].isHability = true
       }
       else {
         this.filters[4].isHability = false
       }
 
-      if (e.unidad_area >= 17 && e.unidad_area <= 24.9) {
+      if (e.unidad_area >= 17 || e.unidad_area <= 24.9) {
         this.filters[5].isHability = true
       }
       else {
         this.filters[5].isHability = false
       }
 
-      if (e.unidad_area >= 25 && e.unidad_area <= 999.9) {
+      if (e.unidad_area >= 25 || e.unidad_area <= 999.9) {
         this.filters[6].isHability = true
       } else {
         this.filters[6].isHability = false
       }
     });
   }
-  errormensajeenviar:string;
+  errormensajeenviar: string;
   onSumbit(form: NgForm, id: UnidadEntity) {
-    if(form.value.firstname==''||form.value.lastname==''||
-    form.value.email==''||form.value.phone==''
-    ||form.value.fecha==''){
-      this.errormensaje='Faltan datos'
-    }else{
+    if (form.value.firstname == '' || form.value.lastname == '' ||
+      form.value.email == '' || form.value.phone == ''
+      || form.value.fecha == '') {
+      this.errormensaje = 'Faltan datos'
+    } else {
       let reserva: ReservaEntity = {
         reserva_nombre: form.value.firstname,
         reserva_apellido: form.value.lastname,
@@ -166,23 +163,23 @@ export class LocaldetailsComponent implements OnInit {
       this.reservaService.sendReserva(reserva).toPromise().then(
         res => {
           console.log(res)
-          if (res.status=='OK'){
+          if (res.status == 'OK') {
             $('#modalconfirmacion').modal('show')
-            this.idreserva=res['items'][0]['cuerpo']['reserva_id'];
+            this.idreserva = res['items'][0]['cuerpo']['reserva_codigo'];
           }
-          else{
-            this.errormensajeenviar='Error de Datos'
+          else {
+            this.errormensajeenviar = 'Error de Datos'
           }
         }
       )
     }
 
   }
-  idreserva:string;
-  continuarreserva(){
+  idreserva: string;
+  continuarreserva() {
     console.log(this.idreserva)
     $('#modalconfirmacion').modal('hide')
-    this.route.navigate(['reservation',this.idreserva])
+    this.route.navigate(['reservation', this.idreserva])
   }
   filertLocals(f: FilterEntity, f2: FilterEntity) {
     this.locals = this.procecesdataservice.getDataFilterUnitLocals(f, f2);
@@ -193,49 +190,56 @@ export class LocaldetailsComponent implements OnInit {
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_1.svg",
       nummteric: 2,
       longunid: 3,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_2.svg",
       nummteric: 2,
       longunid: 5,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_3.svg",
       nummteric: 2,
       longunid: 7,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_4.svg",
       nummteric: 2,
       longunid: 10,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_5.svg",
       nummteric: 2,
       longunid: 15,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_6.svg",
       nummteric: 2,
       longunid: 20,
-      isHability: true
+      isHability: true,
+      isChecked: false
     },
     {
       unitmetric: "m",
       urlimg: "https://mercadobodegas.cl/almacenes/public/img/img_7.svg",
       nummteric: 2,
       longunid: 30,
-      isHability: false
+      isHability: false,
+      isChecked: false
     }
   ]
   url: string = 'https://www.mercadobodegas.cl/almacenes/public/img/instalaciones/'
@@ -282,10 +286,11 @@ export interface GrupoCaracteristic {
   gruponobre: string;
   caracteristica: string
 }
-export interface GrupoModificado{
-  nombregrupo:string;
-  caracteriticas:[
-    {nombrecaraceristicas:string
+export interface GrupoModificado {
+  nombregrupo: string;
+  caracteriticas: [
+    {
+      nombrecaraceristicas: string
     }
   ]
 }

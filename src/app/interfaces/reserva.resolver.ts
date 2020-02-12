@@ -14,6 +14,7 @@ export class ReservaResolve implements Resolve<any> {
     //     return empty()
     //   }))
     // )
+
     return this.reservaService.getReserva(route.paramMap.get('id')).pipe(
       catchError((err=>{
         return empty()

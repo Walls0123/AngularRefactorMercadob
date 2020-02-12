@@ -7,3 +7,6 @@ a{
 .oferta>h6{
   color: #00B8E6;
 }
+.unidad:hover{
+  background-color: rgb(202, 200, 200);
+}

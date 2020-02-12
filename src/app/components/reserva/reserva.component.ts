@@ -20,14 +20,13 @@ export class ReservaComponent implements OnInit {
   };
   constructor(private routeactivate:ActivatedRoute,private router:Router,private loginservice:LoginService) {
     this.routeactivate.data.subscribe((reserva: { reserva: ReservationEntity}) => {
-      this.reservas=reserva.reserva
-      if (isNull(reserva.reserva)) {
-        console.log('not exits'),
+      if(reserva.reserva['status']=='ERROR'){
         this.isLoad=false
-      } else {
+      }
+      else{
+        this.reservas=reserva.reserva;
         this.isLoad=true
       }
-      console.log(this.reservas)
     },error =>{
       console.log(error)
     })
@@ -72,5 +71,44 @@ export interface ReservationEntity {
   unidad_id: number;
   reserva_codigo: string;
   reserva_token_edition: string;
+  unidad: Unidad;
 }
+export interface Unidad {
+  unidad_id: number;
+  unidad_precioMensual: string;
+  unidad_area: number;
+  unidad_oferta: string;
+  local_id: number;
+  unidad_estaBorrado: string;
+  unidad_estaDisponible: string;
+  local: Local;
+}
+export interface Local {
+  local_id: number;
+  local_nombre: string;
+  local_descripcion: string;
+  empresa_id: number;
+  local_telefono: number;
+  local_email: string;
+  local_pais: string;
+  local_region: string;
+  local_provincia: string;
+  local_comuna: string;
+  local_direccion: string;
+  usuario_id: number;
+  local_latitud: number;
+  local_longitud: number;
+  local_nDiasDeReserva: string;
+  local_estaBorrado: string;
+  horario?: (HorarioEntity)[] | null;
+}
+export interface HorarioEntity {
+  horario_id: number;
+  horario_horaEntrada: string;
+  horario_horaSalida: string;
+  horario_tipo: string;
+  local_id: number;
+  horario_dia: string;
+}
+
 
