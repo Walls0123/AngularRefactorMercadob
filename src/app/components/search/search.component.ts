@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
   //**!Close Agm */
   currentIW: AgmInfoWindow;
   previousIW: AgmInfoWindow;
-  mapClick() {
+  mapClick($event) {
     if (this.previousIW) {
       this.previousIW.close();
     }
