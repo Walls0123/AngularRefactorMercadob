@@ -11,6 +11,7 @@ export class LocalsService {
   private localsurl="http://localhost:3000/locals/";
   private urlrod:string="http://amdigital.tech/api/"
   private urlrodseacrh:string="http://amdigital.tech/api/"
+  private urlbuscar:string="http://amdigital.tech/api/ruta?ubicacion="
   getData():boolean{
 
     return true;
@@ -23,8 +24,8 @@ export class LocalsService {
     return this.http.get(this.localsurl);
   }
   //**TODO:Integration Api/Rod */
-  getLocalsAllJson():Observable<any>{
-    return this.http.get(this.urlrod+'locales')
+  getLocalsAllJson(id:string):Observable<any>{
+    return this.http.get(this.urlbuscar+id)
   }
   getLocalsUnitJson(id:string):Observable<any>{
     return this.http.get(this.urlrod+'locales/'+id)

@@ -179,7 +179,7 @@ export class LocaldetailsComponent implements OnInit {
   continuarreserva() {
     console.log(this.idreserva)
     $('#modalconfirmacion').modal('hide')
-    this.route.navigate(['reservation', this.idreserva])
+    this.route.navigateByUrl(`reservation/${this.idreserva}`)
   }
   filertLocals(f: FilterEntity, f2: FilterEntity) {
     this.locals = this.procecesdataservice.getDataFilterUnitLocals(f, f2);

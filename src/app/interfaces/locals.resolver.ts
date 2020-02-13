@@ -13,7 +13,8 @@ export class LocalResolver implements Resolve<any> {
     //     return empty()
     //   }))
     // )
-    return this.localsservice.getLocalsAllJson().pipe(
+    let keys=route.paramMap.keys
+    return this.localsservice.getLocalsAllJson(route.paramMap.get(keys[keys.length-1])).pipe(
       catchError((err=>{
         return empty()
       }))

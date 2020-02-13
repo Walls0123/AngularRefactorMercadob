@@ -86,7 +86,7 @@ export class ProccessdataService {
       let div: HTMLDivElement = document.createElement("div");
       var placesService = new google.maps.places.PlacesService(div)
       placesService.getDetails({
-        placeId: "ChIJL68lBEHFYpYRMQkPQDzVdYQ"
+        placeId: "ChIJs7mFd0hKQpERNiCUuRKmxKM"
       }, (place, status) => {
         adrres = <Address>place;
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -100,13 +100,13 @@ export class ProccessdataService {
         }
       })
     } else {
+      console.log(adrres)
       let center = adrres.geometry.location;
       for (let index = 0; index < object.length; index++) {
         const element = object[index];
         let distanceobject = new google.maps.LatLng(element.local_latitud, element.local_longitud);
         let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(distanceobject, center) / 1000;
         element.local_distance = Math.round(distanceInKm * 100) / 100;
-        console.log(element)
       }
     }
     this.localrod = object

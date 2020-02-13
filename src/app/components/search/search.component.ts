@@ -8,6 +8,7 @@ import { Geometry } from 'ngx-google-places-autocomplete/objects/geometry';
 import { SeacrchService } from 'src/app/services/seacrch.service';
 import 'jquery'
 import { isEmpty } from 'rxjs/operators';
+import { LocalsService } from 'src/app/services/locals.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -109,9 +110,10 @@ export class SearchComponent implements OnInit {
   textnext: string = 'Siguiente'
   textprevius: string = 'Anterior'
   constructor(private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, private activatedRoute: ActivatedRoute, private procecesdataservice: ProccessdataService, private searchservice: SeacrchService) {
+    private ngZone: NgZone, private localsservice: LocalsService, private activatedRoute: ActivatedRoute, private procecesdataservice: ProccessdataService, private searchservice: SeacrchService) {
     //Valid if Navigate is For Routing
     if (this.searchservice.isRoutingSearching) {
+      console.log(this.activatedRoute.snapshot)
       let searchplace = this.searchservice.getObjectSearching();
       this.region = this.activatedRoute.snapshot.paramMap.get('region');
       this.pais = this.activatedRoute.snapshot.paramMap.get('pais');
@@ -119,13 +121,27 @@ export class SearchComponent implements OnInit {
       //Consulta A la Base de Datos Si es Posible Para Filtrar
       this.activatedRoute.data.subscribe((data:
         { locals: LocalEntity[] }) => {
-        this.procecesdataservice.setdataTransform(data.locals, <Address>(searchplace));
+        console.log(data.locals)
+        if (data.locals['status'] == 'ERROR') {
+          this.locals = []
+          this.procecesdataservice.setdataTransform(this.locals, <Address>(searchplace));
+        }
+        else {
+          this.procecesdataservice.setdataTransform(data.locals, <Address>(searchplace));
+        }
       });
     } else {
       let adr: Address
       this.activatedRoute.data.subscribe((data:
         { locals: LocalEntity[] }) => {
-        this.procecesdataservice.setdataTransform(data.locals, adr);
+        console.log(data)
+        if (data.locals['status'] == 'ERROR') {
+          this.locals = []
+          this.procecesdataservice.setdataTransform(this.locals, <Address>(adr));
+        }
+        else {
+          this.procecesdataservice.setdataTransform(data.locals, <Address>(adr));
+        }
       });
     }
     this.currentIW = null;
@@ -204,24 +220,43 @@ export class SearchComponent implements OnInit {
   region: string;
   pais: string;
   locals: LocalEntity[];
-  zoom: number = 13;
+  zoom: number = 16;
   lat: number = -16.4090474;
   lng: number = -71.53745099999998
   agmFitBounds = true;
   locationsearch: Geometry;
   searchsites: Array<string> = ['search'];
   public handleAddressChange(address: Address) {
-    this.locationsearch = address.geometry
-    let ditance1 = new google.maps.LatLng(this.lat, this.lng)
+    this.searchsites.pop();
     address.address_components.forEach(element => {
       this.searchsites.push(element.long_name)
     });
+    this.searchsites.reverse();
+    this.searchsites.unshift('search');
+    console.log(this.searchsites)
+    if (this.searchsites.length >= 5) {
+      this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
+      this.localsservice.getLocalsAllJson(this.searchsites[this.searchsites.length - 1]).subscribe(
+        data => {
+          this.locals=JSON.parse(JSON.stringify(data));
+          this.procecesdataservice.setdataTransform(this.locals,address);
+          this.locals=this.procecesdataservice.getDataTransform();
+        }
+      )
+    }
+    else {
+      this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
+
+    }
 
     //Not Routing Change Search
   }
+  buscarlugar() {
+
+  }
   options = {
     componentRestrictions: {
-      country: ['CL']
+      country: ['PE']
     }
   }
   //Markers
@@ -243,6 +278,9 @@ export class SearchComponent implements OnInit {
     this.region = this.activatedRoute.snapshot.paramMap.get('region');
     this.pais = this.activatedRoute.snapshot.paramMap.get('pais');
     this.comuna = this.activatedRoute.snapshot.paramMap.get('comuna');
+    if (this.comuna == null) {
+      this.comuna = this.region = this.activatedRoute.snapshot.paramMap.get('province');
+    }
     $("#filtrosresponsive").hide()
     $(function () {
       $(window).scroll(function () {
@@ -261,6 +299,9 @@ export class SearchComponent implements OnInit {
       });
     });
     this.locals = this.procecesdataservice.getDataTransform();
+    if (this.locals.length == 0) {
+      this.locals = []
+    }
     for (let index = 0; index < this.locals.length; index++) {
       const element = this.locals[index];
       //Comprobacion de longitud 0 Razon ... Hay Arrays que Tienen longitud mayor a 0 pero con elementos Vacios
@@ -275,7 +316,7 @@ export class SearchComponent implements OnInit {
     let div: HTMLDivElement = document.createElement("div");
     var placesService = new google.maps.places.PlacesService(div)
     placesService.getDetails({
-      placeId: "ChIJL68lBEHFYpYRMQkPQDzVdYQ"
+      placeId: "ChIJs7mFd0hKQpERNiCUuRKmxKM"
     }, (place, status) => {
 
       if (status === google.maps.places.PlacesServiceStatus.OK) {

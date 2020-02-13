@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   }
   options = {
     componentRestrictions: {
-      country: ['CL']
+      country: ['PE']
     }
   }
   fase: Array<Icons> = [{
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
         autocomplete.getPlacePredictions(
           {
             input: input.value,
-            componentRestrictions: { country: 'cl' }
+            componentRestrictions: { country: 'PE' }
           },
           (pre, status)=> {
             console.log(pre)
@@ -144,15 +144,15 @@ export class HomeComponent implements OnInit {
     address.address_components.forEach(element => {
       this.searchsites.push(element.long_name)
     });
-    console.log(address);
     this.searchsites.reverse();
-    this.searchsites.unshift('search')
-    if (this.searchsites.length<=4) {
+    this.searchsites.unshift('search');
+    console.log(this.searchsites)
+    if (this.searchsites.length>=5) {
       this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
       this.router.navigate(this.searchsites);
-    }else{
+    }
+    else{
       this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
-      this.searchsites.splice(3,2)
       this.router.navigate(this.searchsites);
     }
 
