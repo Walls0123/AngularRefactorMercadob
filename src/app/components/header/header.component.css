@@ -46,6 +46,8 @@ img.imgguide{
   #navbarSupportedContent{
     margin-top: 25px;
   }
+  #nav{
+  padding-top: 5px !important;}
   a{
     padding-left: 0;
     margin-top: 10px;

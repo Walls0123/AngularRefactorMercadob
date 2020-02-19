@@ -68,7 +68,9 @@ agm-map {
   border-bottom: 15px solid transparent;
   border-left: 10px solid #ff6c2f;
 }
-
+#cerrarmodal{
+  border-radius: 50%;
+}
 #marcador{
   margin-left: 250px !important;
 }
@@ -89,9 +91,34 @@ agm-map {
   background-color: #ff6c2f;
   color: white;
 }
-
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+#buttonfiltrosmap{
+  display: none !important;
+}
 @media only screen and (max-width: 577px){
+  #principal{
+    margin-top: 10px !important;
+  }
+  #busqueda{
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+  #cantidadbodegas{
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+  }
   #ordenarpor{
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+  }
+  #resultadosmapa{
+    display: none;
+  }
+  #ordenarpor{
+    display: none;
     width: 100%;
   }
   #cantidadbodegas{
@@ -107,6 +134,38 @@ agm-map {
     position: fixed;
     bottom: -1px;
     z-index: 1;
+  }
+  #buttonfiltrosmap{
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: auto;
+    position: fixed;
+    bottom: -1px;
+    z-index: 1;
+    bottom: 15px;
+  }
+  .iconopcion{
+    color: #ff6c2f;
+    padding-right: 5px;
+  }
+  .letra{
+    color:white !important;
+  }
+  #buttonfiltrosmap{
+    display: block !important;
+  }
+  #buttonfiltrosmap>div{
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 25px;
+    border: 1px;
+    border-style: solid;
+    background-color: black !important;
+    border-color: black;
+  }
+  #botones{
+    display: inline-block;
   }
   #showitems{
     width: 50%;

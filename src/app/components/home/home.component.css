@@ -1,11 +1,27 @@
 #buscador{
   background-color: #FF6C2F;
 }
+#conten{
+  position: relative;
+}
+#busquedacercade{
+  position: absolute;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-bottom: 3px !important;
+  text-align: center;
+  font-size: 30px;
+  background-color: black !important;
+  color: white;
+}
 hr{
   clear: both;
   visibility: hidden;
 }
-#info1{
+#informacion{
   padding: 48px;
 }
 
@@ -21,8 +37,15 @@ hr{
     margin-top: 0px !important;
     margin-bottom: 2px !important;
   }
+  #informacion{
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
 }
 
 .bgprincipal{
   background-color: #FF6C2F;
 }
+

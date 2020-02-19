@@ -10,3 +10,17 @@ a{
 .unidad:hover{
   background-color: rgb(202, 200, 200);
 }
+.unidad{
+  border-bottom: 3px solid #cdcdcd;
+}
+.cabecera{
+  border-bottom: 2px solid black;
+}
+@media only screen and (max-width: 577px){
+  .btn-danger{
+    background-color: white !important;
+    border-color: #ff6c2f !important;
+    color: black !important;
+  }
+}
+

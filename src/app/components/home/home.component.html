@@ -1,7 +1,7 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <section>
   <div id="buscador">
-    <div class="container-fluid text-center" id="info1">
+    <div class="container-fluid text-center" id="informacion">
       <div class="container-fluid">
         <div class="row">
           <div class="text-center w-100">
@@ -11,27 +11,30 @@
             <h2>Cotiza, compara y reserva sin compromiso.</h2>
           </div>
         </div>
-        <section>
-          <div class="form-inline my-2 my-lg-0 row text-center">
-            <div class="col-md-2"></div>
-            <div id="inputbuscador"></div>
-            <div class="col-md-6 p-0">
-              <input class="form-control ng-untouched ng-pristine ng-valid w-100 pr-1 pl-0" id="busqueda"
-                name="busqueda" placeholder=" Ingresa dirección, calle, comuna, o ciudad." matInput
-                ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
-                (onAddressChange)="handleAddressChange($event)">
-              <div id="errorcar" class="alert alert-danger" *ngIf="this.smserror" role="alert"
-                style="position: absolute;width: 100%;margin-top: 10px;">
-                <span>La longitud minima de busqueda es de 4 caracteres </span>
-              </div>
+        <div class="form-inline my-2 my-lg-0 row text-center">
+          <div class="col-md-2"></div>
+          <div id="inputbuscador"></div>
+          <div class="col-md-6 p-0 row m-0">
+            <div class="w-100" id="conten">
+              <input class="form-control w-100 pr-1 pl-0" id="busqueda"
+            autocorrect="off" autocomplete="off" name="busqueda" placeholder=" Ingresa Dirección de la Bodega"
+            matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+            (onAddressChange)="handleAddressChange($event)">
+            <button class="btn btn-dark p-0" id="busquedacercade" (click)=getCurrentLocation()>
+              <i class="fas fa-map-marked-alt"></i>
+            </button>
             </div>
-            <div class="col-md-2 p-0 ml-2" id="buttonbuscar">
-              <button id="btn" class="btn btn-inline-white btn-block pr-1 pl-0" type="submit" (click)=this.onclick()
-                style="background-color: black;color: white;">Buscar</button>
+            <div id="errorcar" class="alert alert-danger" *ngIf="this.smserror" role="alert"
+              style="position: absolute;width: 100%;margin-top: 10px;">
+              <span>La longitud minima de busqueda es de 4 caracteres </span>
             </div>
-            <div class="col-md-2"></div>
           </div>
-        </section>
+          <div class="col-md-2 p-0 ml-2" id="buttonbuscar">
+            <button id="btn" class="btn btn-inline-white btn-block pr-1 pl-0" type="submit" (click)=this.onclick()
+              style="background-color: black;color: white;">Buscar</button>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -55,6 +58,26 @@
   </div> <!-- /container -->
 </section>
 <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0 bgprincipal">
+        <div class="text-center w-100">
+          <img src="https://mercadobodegas.cl/assets/logo1.svg" alt="">
+        </div>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body p-0 border-bottom-0 bgprincipal">
+        <img class="modal-content border-0" src="https://www.123dreamit.com/static/new_dream/img/no-resultados_sm.png"
+          alt="">
+      </div>
+      <div class="modal-footer p-0 bgprincipal">
+        <button id="btnclosemodal" type="button" class="m-0 btn btn-block bgprincipal" style="color: white;"
+          data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modalerror" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header border-bottom-0 bgprincipal">

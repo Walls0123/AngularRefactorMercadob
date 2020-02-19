@@ -17,20 +17,21 @@ import { MetacolorService } from 'src/app/services/metacolor.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private colometa:MetacolorService, private router: Router, private mapsApiloader: MapsAPILoader, private ngZone: NgZone,private searchservice:SeacrchService) {
-    let color = '#2ecc71';
+  constructor(private colometa: MetacolorService, private router: Router, private mapsApiloader: MapsAPILoader, private ngZone: NgZone, private searchservice: SeacrchService) {
+    let color = '#FF6C2F';
     this.colometa.changeThemeColorUsingMeta(color);
   }
   name = 'Angular';
 
   ngOnInit() {
+    $('.modal-backdrop').remove()
     $('#exampleModalPreview').modal().hide()
-    $('#busqueda').focus(()=>{
+    $('#busqueda').focus(() => {
       $('#errorcar').hide(2000)
-      this.smserror=false
+      this.smserror = false
     }
     )
-    $('#btnclosemodal').click(()=>{
+    $('#btnclosemodal').click(() => {
       $('#busqueda').val('')
     })
 
@@ -73,12 +74,12 @@ export class HomeComponent implements OnInit {
     // })
   }
   onclick() {
-    if ($('#busqueda').val().toString().length< 4) {
+    if ($('#busqueda').val().toString().length < 4) {
       this.smserror = true;
     } else {
       this.mapsApiloader.load().then(() => {
         let input: HTMLInputElement = <HTMLInputElement>document.getElementById('busqueda');
-        let auto=new google.maps.places.AutocompleteService();
+        let auto = new google.maps.places.AutocompleteService();
 
         let autocomplete = new google.maps.places.AutocompleteService();
         autocomplete.getPlacePredictions(
@@ -86,7 +87,7 @@ export class HomeComponent implements OnInit {
             input: input.value,
             componentRestrictions: { country: 'PE' }
           },
-          (pre, status)=> {
+          (pre, status) => {
             console.log(pre)
             if (status.toString() == 'OK') {
               for (let index = 0; index < pre.length; index++) {
@@ -105,7 +106,7 @@ export class HomeComponent implements OnInit {
                 }
               }
             }
-            else{
+            else {
               $('#myModal').modal('show')
             }
           })
@@ -113,26 +114,50 @@ export class HomeComponent implements OnInit {
     }
 
   }
-  sendLocationSearch(object:google.maps.places.AutocompletePrediction){
+  getCurrentLocation() {
+    if ("geolocation" in navigator) {
+      /* la geolocalización está disponible */
+      navigator.geolocation.getCurrentPosition((position)=>{
+        //Cambiar la localizcion... Cambiar de lugar
+      }, (error)=>{
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            $('#modalerror').modal('show');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location position unavailable.");
+            break;
+          case error.TIMEOUT:
+            alert("Request timeout.");
+            break;
+        }
+      }, { timeout: 1000, enableHighAccuracy: true });
+    } else {
+      $('#modalerror').modal('show');
+      /* la geolocalización NO está disponible */
+    }
+
+  }
+  sendLocationSearch(object: google.maps.places.AutocompletePrediction) {
     this.searchsites.pop()
-    let div:HTMLDivElement=<HTMLDivElement>document.getElementById('inputbuscador')
+    let div: HTMLDivElement = <HTMLDivElement>document.getElementById('inputbuscador')
     var placesService = new google.maps.places.PlacesService(div)
     placesService.getDetails({
-      placeId:object.place_id
-    },(place,status) =>{
+      placeId: object.place_id
+    }, (place, status) => {
       console.log(place)
-      if (status===google.maps.places.PlacesServiceStatus.OK) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
         place.address_components.forEach(element => {
           this.searchsites.push(element.long_name)
         });
         this.searchsites.reverse();
         this.searchsites.unshift('search')
-        if (this.searchsites.length<=4) {
+        if (this.searchsites.length <= 4) {
           this.searchservice.setObjectSearching(place);
           this.router.navigate(this.searchsites);
-        }else{
+        } else {
           this.searchservice.setObjectSearching(place);
-          this.searchsites.splice(3,2)
+          this.searchsites.splice(3, 2)
           this.router.navigate(this.searchsites);
         }
       }
@@ -147,11 +172,11 @@ export class HomeComponent implements OnInit {
     this.searchsites.reverse();
     this.searchsites.unshift('search');
     console.log(this.searchsites)
-    if (this.searchsites.length>=5) {
+    if (this.searchsites.length >= 5) {
       this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
       this.router.navigate(this.searchsites);
     }
-    else{
+    else {
       this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
       this.router.navigate(this.searchsites);
     }

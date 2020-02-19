@@ -1,7 +1,7 @@
-<section class="mt-5">
+<section class="mt-5" id="principal">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3" id="resultadosmapa">
         <div class="mb-4" id="mapa-button">
           <img width="100%" src="https://mercadobodegas.cl/assets/mapa2.svg">
           <div class="row" id="button-mapa">
@@ -70,14 +70,17 @@
                 name="busqueda" placeholder=" Ingresa dirección, calle, comuna, o ciudad." matInput
                 ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
                 (onAddressChange)="handleAddressChange($event)"></div>
-            <div class="col-md-2 col-xs-12 pl-0 pr-0"><button (click)=buscarlugar() style="background-color: #ff6c2f;color: white;"
-                class="btn btn-block white my-2 my-sm-0">Search</button></div>
+            <div class="col-md-2 col-xs-12 pl-0 pr-0"><button (click)=buscarlugar()
+                style="background-color: #ff6c2f;color: white;" class="btn btn-block white my-2 my-sm-0">Search</button>
+            </div>
             <div class="col-sm-2"></div>
           </form>
         </div>
         <div class="d-flex flex-row justify-content-between align-items-center form-inline">
-          <div *ngIf="this.locals.length==1" class="mt-3 mb-3 text-center" id="cantidadbodegas"> {{this.locals.length}} bodega cerca de {{this.pais}}, {{this.comuna}} </div>
-          <div *ngIf="this.locals.length!=1"class="mt-3 mb-3 text-center" id="cantidadbodegas"> {{this.locals.length}} bodegas cerca de {{this.pais}}, {{this.comuna}} </div>
+          <div *ngIf="this.locals.length==1" class="mt-3 mb-3 text-center" id="cantidadbodegas"> {{this.locals.length}}
+            bodega cerca de {{this.pais}}, {{this.comuna}} </div>
+          <div *ngIf="this.locals.length!=1" class="mt-3 mb-3 text-center" id="cantidadbodegas"> {{this.locals.length}}
+            bodegas cerca de {{this.pais}}, {{this.comuna}} </div>
           <div class="mt-3 mb-3" id="ordenarpor">
             <div class="form-group"><label class="mr-3" for="select-order">Ordenar por</label><select
                 class="form-control" id="select-order" name="select-order">
@@ -148,7 +151,7 @@
           <agm-map (mapClick)="mapClick($event)" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
             [disableDefaultUI]="false" [zoomControl]="false" [mapDraggable]="true">
             <agm-marker (markerClick)=markerClick(iw) *ngFor="let mar of this.locals" [latitude]="mar.local_latitud"
-              [longitude]="mar.local_longitud">
+              [iconUrl]="this.iconurl" [longitude]="mar.local_longitud">
               <agm-info-window #iw>
                 <div class="card agminfo" style="width: 240px;">
                   <a href="almacen/{{mar.local_id}}">
@@ -191,14 +194,31 @@
           </agm-map>
         </div>
         <div class="row m-2" style="position: absolute;top: 0;z-index: 999;">
-          <button class="btn btn-dark" data-dismiss="modal" aria-label="close">Regresar</button>
+          <button class="btn shadow-lg" style="background-color: white; width: 50px;height: 50px;" id="cerrarmodal"
+            data-dismiss="modal" aria-label="close">
+            <span style="color:black;font-size: 20px;"><i class="fas fa-times"></i></span></button>
         </div>
       </div>
     </div>
   </div>
   <!-- Modal -->
-
-
+  <div id="buttonfiltrosmap" class="d-flex justify-content-center">
+    <div class="row m-0 d-flex justify-content-center shadow-lg bg-white">
+      <div>
+        <button class="btn pl-1 p-0 pt-2 pb-2" data-toggle="modal"
+              data-target="#exampleModalPreview">
+          <span class="iconopcion"><i class="fas fa-map-marker-alt"></i>
+            <span class="letra ml-1">Mapa</span></span>
+          </button>
+      </div>
+      <div><button class="btn pl-1 p-0 pt-2 pb-2">
+          <span class="iconopcion"><i class="fas fa-filter"></i><span class="ml-1 letra">Filtro</span></span>
+          </button></div>
+      <div><button class="btn pl-1 p-0 pt-2 pb-2">
+          <span class="iconopcion border-0"><i class="fas fa-sort"></i><span class="ml-1 letra">Ordenar</span></span>
+          </button></div>
+    </div>
+  </div>
   <button type="button" id="filtrosresponsive" class="btn" data-toggle="dropdown" aria-haspopup="true"
     aria-expanded="false">
     Filtros

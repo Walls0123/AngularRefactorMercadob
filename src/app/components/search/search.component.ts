@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
       this.previousIW.close();
     }
   }
-
+  iconurl:string="assets/bodega2.png"
   markerClick(infoWindow) {
     if (this.previousIW) {
       this.currentIW = infoWindow;
@@ -220,7 +220,7 @@ export class SearchComponent implements OnInit {
   region: string;
   pais: string;
   locals: LocalEntity[];
-  zoom: number = 16;
+  zoom: number = 10;
   lat: number = -16.4090474;
   lng: number = -71.53745099999998
   agmFitBounds = true;
@@ -281,23 +281,6 @@ export class SearchComponent implements OnInit {
     if (this.comuna == null) {
       this.comuna = this.region = this.activatedRoute.snapshot.paramMap.get('province');
     }
-    $("#filtrosresponsive").hide()
-    $(function () {
-      $(window).scroll(function () {
-        if ($(window).width() <= 576) {
-          if ($(window).scrollTop() > 300) {
-            $("#filtrosresponsive").fadeIn();//.fadeOut();
-          } else {
-            $("#filtrosresponsive").fadeOut();//.fadeIn();
-          }
-          // is mobile device
-        }
-        else {
-          $("#filtrosresponsive").css('display', 'none')
-        }
-
-      });
-    });
     this.locals = this.procecesdataservice.getDataTransform();
     if (this.locals.length == 0) {
       this.locals = []
