@@ -44,11 +44,11 @@ export class ReservaComponent implements OnInit {
 
     this.loginservice.loginReserva(log).toPromise().then((res)=>{
       let re=JSON.parse(res.toString());
-      if (re['status']=='ok') {
+      if (re['status']=='OK') {
         console.log(re)
         $('#myModal').modal('toggle')
-        this.loginservice.setLoginTemporal(re['token'])
-        this.router.navigate(['reservationedit','2'])
+        this.loginservice.setLoginTemporal(re['items']['token'])
+        // this.router.navigate(['reservationedit','2'])
       }else{
         this.loginstatus=false
       }

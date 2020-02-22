@@ -14,6 +14,8 @@ export class LocalComponent implements OnInit {
   responive: boolean = false
   normal: boolean = true
   ngOnInit() {
+    this.local.shownumber=false
+    console.log(this.local)
     if (window.matchMedia('(max-width: 576px)').matches) {
       //...
       this.responive=true;
@@ -24,5 +26,8 @@ export class LocalComponent implements OnInit {
   }
     this.urlig = "https://www.mercadobodegas.cl/almacenes/public/img/instalaciones/16/MiniBodegasSantiago_20-01-56_2020-01-20_1.jpg";
   }
-
+  shownumber(local:LocalEntity){
+    local.shownumber=true
+    console.log(local)
+  }
 }

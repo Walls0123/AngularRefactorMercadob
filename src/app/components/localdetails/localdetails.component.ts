@@ -78,9 +78,12 @@ export class LocaldetailsComponent implements OnInit {
   //           }
   maplocation: string;
   errormensaje: string;
+  shownumber(){
+    this.locals.shownumber=true
+  }
   ngOnInit() {
     this.locals = this.procecesdataservice.getDatalocalunit();
-
+    this.locals.shownumber=false
     // console.log(grup.get('pagos'))
     // let caracteristica=[]
     // grup.get('pagos').forEach(element => {

@@ -96,6 +96,7 @@ export class ProccessdataService {
             let distanceobject = new google.maps.LatLng(element.local_latitud, element.local_longitud);
             let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(distanceobject, center) / 1000;
             element.local_distance = Math.round(distanceInKm * 100) / 100;
+            element.shownumber=false
           }
         }
       })
@@ -107,6 +108,7 @@ export class ProccessdataService {
         let distanceobject = new google.maps.LatLng(element.local_latitud, element.local_longitud);
         let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(distanceobject, center) / 1000;
         element.local_distance = Math.round(distanceInKm * 100) / 100;
+        element.shownumber=false
       }
     }
     this.localrod = object

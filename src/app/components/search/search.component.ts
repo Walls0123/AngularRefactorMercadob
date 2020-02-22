@@ -418,27 +418,10 @@ export interface LocalEntity {
   local_nDiasDeReserva: string;
   local_estaBorrado: string;
   unidad?: (UnidadEntity | null)[] | null;
-  local_distance: number
+  local_distance: number,
+  shownumber:Boolean
 }
-export interface LocalEntity {
-  local_id: number;
-  local_nombre: string;
-  local_descripcion: string;
-  empresa_id: number;
-  local_telefono: number;
-  local_email: string;
-  local_pais: string;
-  local_region: string;
-  local_provincia: string;
-  local_comuna: string;
-  local_direccion: string;
-  usuario_id: number;
-  local_latitud: number;
-  local_longitud: number;
-  local_nDiasDeReserva: string;
-  local_estaBorrado: string;
-  unidad?: (UnidadEntity)[] | null;
-}
+
 export interface UnidadEntity {
   unidad_id: number;
   unidad_precioMensual: string;

@@ -5,13 +5,16 @@ a{
   text-decoration: none;
 }
 .oferta>h6{
-  color: #00B8E6;
+  color: #FF2321;
 }
-.unidad:hover{
-  background-color: rgb(202, 200, 200);
+/* .unidad:hover{
+  background-color:rgb(216, 240, 185)
+} */
+.bukos{
+  color: #ff6c2f;
 }
 .unidad{
-  border-bottom: 3px solid #cdcdcd;
+  border-bottom: 1px solid #eaeaea;
 }
 .cabecera{
   border-bottom: 2px solid black;
@@ -21,6 +24,9 @@ a{
     background-color: white !important;
     border-color: #ff6c2f !important;
     color: black !important;
+  }
+  .unidad:hover{
+    background-color: white
   }
 }
 

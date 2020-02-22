@@ -44,22 +44,26 @@ export class HomeComponent implements OnInit {
   fase: Array<Icons> = [{
     i: faSearch,
     sise: "5x",
-    text: "Busca y selecciona una bodega"
+    text: "Busca y selecciona una bodega",
+    paso:"Paso 1"
   },
   {
     i: faTicketAlt,
     sise: "5x",
-    text: "Reserva gratis en línea"
+    text: "Reserva gratis en línea",
+    paso:"Paso 2"
   },
   {
     i: faWarehouse,
     sise: "5x",
-    text: "Visita la bodega"
+    text: "Visita la bodega",
+    paso:"Paso 3"
   },
   {
     i: faPeopleCarry,
     sise: "5x",
-    text: "BLleva tus cosas"
+    text: "BLleva tus cosas",
+    paso:"Paso 4"
   }]
   smserror: boolean = false;
   ngAfterViewInit(): void {
@@ -186,5 +190,6 @@ export class HomeComponent implements OnInit {
 export interface Icons {
   i: IconProp,
   sise: SizeProp,
-  text: String
+  text: String,
+  paso:String
 }

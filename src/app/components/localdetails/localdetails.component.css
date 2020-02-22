@@ -19,3 +19,8 @@ h3,li{
 .bgprincipal{
   background-color: #FF6C2F;
 }
+.bgbutton{
+  background-color: white;
+  color: #FF6C2F;
+  border-color: #FF6C2F;
+}

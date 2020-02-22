@@ -51,6 +51,7 @@
     <!-- Icons -->
     <div class="row mt-4">
       <div class="d-flex flex-column col-sm-3 text-center" *ngFor="let icon of this.fase">
+        <!-- <span>{{icon.paso}}<i class="fas fa-arrow-right"></i></span> -->
         <fa-icon [icon]="icon.i" [size]="icon.sise" class="mb-3"></fa-icon>
         <span id="txt">{{icon.text}}</span>
       </div>

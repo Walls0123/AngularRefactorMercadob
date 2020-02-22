@@ -19,7 +19,8 @@ export interface LocalUnitEntity {
   unidad?: (UnidadEntity)[] | null;
   horario?: (HorarioEntity)[] | null;
   caracteristicas?: (CaracteristicasEntity)[] | null;
-  caracteristicasmod:GrupoModificado[]
+  caracteristicasmod:GrupoModificado[];
+  shownumber:Boolean
 }
 export interface UnidadEntity {
   unidad_id: number;

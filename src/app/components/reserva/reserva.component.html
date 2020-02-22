@@ -25,7 +25,8 @@
                   <span>Horario de Acceso: 06:00 am - 11:00
                     pm</span><br>
                   <!-- Trigger the modal with a button -->
-                  <button type="button" class="btn btn-block" style="background-color: #FF6C2F;color: white;"  data-toggle="modal" data-target="#myModal">
+                  <button type="button" class="btn btn-block" style="background-color: #FF6C2F;color: white;"
+                    data-toggle="modal" data-target="#myModal">
                     Cambiar Fecha de Mudanza
                   </button>
 
@@ -52,18 +53,31 @@
                             </div>
                             <button type="submit" class="btn btn-block" style="background-color: #FF6C2F;color: white;">Sign in</button>
                           </form> -->
-                          <form #myform="ngForm" class="w-100" [name]="this.reservas.reserva_email" (ngSubmit)="login(myform)">
+                          <form #myform="ngForm" class="w-100" [name]="this.reservas.reserva_email"
+                            (ngSubmit)="login(myform)">
                             <div *ngIf=!this.loginstatus class="alert alert-danger w-100 text-center" role="alert">
                               Credenciales Incorrectas
                             </div>
                             <div class="col-md-12 mt-3">
-                              <input type="text" class="form-control" name="email" placeholder="correo" ngModel>
+                              <input type="text" class="form-control" disabled name="email" placeholder={{this.reservas.reserva_email}} ngModel>
+                            </div>
+                            <div class="row m-0">
+                              <div class="col-md-6 mt-3">
+                                <input type="text" class="form-control" name="name" placeholder={{this.reservas.reserva_nombre}} ngModel>
+                              </div>
+                              <div class="col-md-6 mt-3">
+                                <input type="text" class="form-control" name="apellido" placeholder={{this.reservas.reserva_apellido}}ngModel>
+                              </div>
                             </div>
                             <div class="col-md-12 mt-3">
-                              <input type="text" class="form-control" name="code" placeholder="code" ngModel>
+                              <input type="text" class="form-control" name="phone" placeholder={{this.reservas.reserva_telefono}} ngModel>
                             </div>
                             <div class="col-md-12 mt-3">
-                              <button type="submit" class="form-control btn-block" style="background-color: #FF6C2F; color: white;">Login</button>
+                              <input type="date" class="form-control" [attr.value]="this.reservas.reserva_fechaMudanza" name="date" placeholder="date" ngModel>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                              <button type="submit" class="form-control btn-block"
+                                style="background-color: #FF6C2F; color: white;">Cambiar</button>
                             </div>
                           </form>
                         </div>
@@ -86,7 +100,10 @@
               <span>{{this.reservas.reserva_nombre}}</span><br>
               <span>{{this.reservas.reserva_telefono}}</span><br>
             </div>
-            <button class="btn btn-block" style="background-color: #FF6C2F;color: white;">Cambiar Informacion</button>
+            <button style="background-color: #FF6C2F;color: white;" id="modalActivate" type="button" class="btn btn-block" data-toggle="modal"
+              data-target="#exampleModalPreview">
+              Cambiar Informacion
+            </button>
           </div>
           <div class="col-sm-6 card">
             <h1>Instalacion</h1>
@@ -114,11 +131,12 @@
       <div class="card mt-3" style="background-color: #FF6C2F; color: black;">
         <div class="card-body">
           <div class="text-center mb-3">
-            <img src="https://www.mercadobodegas.net/assets/logo1.svg" alt="">
+            <img src="https://www.mercadobodegas.cl/assets/logo1.svg" alt="">
           </div>
           <div>
             <h3>Las cosas cambian, lo entendemos.</h3><span> Si
-              necesitas hacer un cambio en la reserva o tienes alguna duda o problema, llámanos. Estamos aquí para ayudar.
+              necesitas hacer un cambio en la reserva o tienes alguna duda o problema, llámanos. Estamos aquí para
+              ayudar.
             </span>
           </div>
           <div class="mt-3"><button class="btn bg-black white btn-block">5695465132</button></div>
@@ -126,9 +144,25 @@
       </div>
     </div>
   </div>
+<!--
+  <div class="modal fade right" id="exampleModalPreview" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+    <div class="modal-dialog momodel modal-fluid" role="document">
+      <div class="modal-content ">
+        <div class="h-100" style="background-color: yellow;">
+
+        </div>
+        <div class="row m-2" style="position: absolute;top: 0;z-index: 999;">
+          <button class="btn shadow-lg" style="background-color: white; width: 50px;height: 50px;" id="cerrarmodal"
+            data-dismiss="modal" aria-label="close">
+            <span style="color:black;font-size: 20px;"><i class="fas fa-times"></i></span></button>
+        </div>
+      </div>
+    </div>
+  </div> -->
 </ng-container>
 <ng-template #elseTemplate>
   <div class="text-center">
     <img src="https://josefacchin.com/wp-content/uploads/2018/09/error-404-http-not-found.png" alt="">
-    </div>
+  </div>
 </ng-template>
