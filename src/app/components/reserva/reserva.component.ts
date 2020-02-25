@@ -36,13 +36,22 @@ export class ReservaComponent implements OnInit {
     // this.idreservation=this.reservas.reserva_codigo;
     // this.ngxQrcode2=`http://localhost:4201/reservation/${this.reservas.reserva_codigo}`
   }
+  cancelarReserva(){
+    this.loginservice.cancelarserver(this.reservas.reserva_id.toString()).toPromise().then((r)=>{
+      console.log(r)
+    })
+  }
   login(form:NgForm){
-    let log:LoginReserva={
-      login_correo:form.value.email,
-      login_codigo:form.value.code
-    }
-
-    this.loginservice.loginReserva(log).toPromise().then((res)=>{
+    console.log(form.value)
+    let modreserva:ModificarReservaEntity={
+      reserva_nombre:form.value.name,
+      reserva_apellido:form.value.apellido,
+      reserva_telefono:form.value.phone,
+      reserva_fechaMudanza:form.value.date,
+      reserva_token_edition:this.reservas.reserva_token_edition
+    };
+    this.loginservice.modificarReserva(modreserva).toPromise().then((res)=>{
+      console.log(res)
       let re=JSON.parse(res.toString());
       if (re['status']=='OK') {
         console.log(re)
@@ -73,6 +82,16 @@ export interface ReservationEntity {
   reserva_token_edition: string;
   unidad: Unidad;
 }
+export interface ModificarReservaEntity{
+  login_correo?: string;
+  login_codigo?:string;
+  reserva_nombre?: string;
+  reserva_apellido?: string;
+  reserva_telefono?: number;
+  reserva_fechaMudanza?: string;
+  reserva_token_edition: string;
+}
+
 export interface Unidad {
   unidad_id: number;
   unidad_precioMensual: string;

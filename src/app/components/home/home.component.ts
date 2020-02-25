@@ -10,6 +10,7 @@ import { MapsAPILoader } from '@agm/core'
 import 'jquery'
 import { SeacrchService } from 'src/app/services/seacrch.service';
 import { MetacolorService } from 'src/app/services/metacolor.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,13 +18,26 @@ import { MetacolorService } from 'src/app/services/metacolor.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private colometa: MetacolorService, private router: Router, private mapsApiloader: MapsAPILoader, private ngZone: NgZone, private searchservice: SeacrchService) {
+  constructor(private colometa: MetacolorService,
+    private router: Router,
+    private mapsApiloader: MapsAPILoader,
+    private ngZone: NgZone,
+    private searchservice: SeacrchService,
+    private spinner: NgxSpinnerService) {
     let color = '#FF6C2F';
     this.colometa.changeThemeColorUsingMeta(color);
   }
   name = 'Angular';
-
+  responsive:boolean=false;
+  normal:boolean=true;
   ngOnInit() {
+    if (window.matchMedia('(max-width: 576px)').matches) {
+      //...
+      this.responsive = true;
+      this.normal=false;
+    } else {
+      //YA Veremos
+    }
     $('.modal-backdrop').remove()
     $('#exampleModalPreview').modal().hide()
     $('#busqueda').focus(() => {
@@ -45,25 +59,25 @@ export class HomeComponent implements OnInit {
     i: faSearch,
     sise: "5x",
     text: "Busca y selecciona una bodega",
-    paso:"Paso 1"
+    paso: "Paso 1"
   },
   {
     i: faTicketAlt,
     sise: "5x",
     text: "Reserva gratis en línea",
-    paso:"Paso 2"
+    paso: "Paso 2"
   },
   {
     i: faWarehouse,
     sise: "5x",
     text: "Visita la bodega",
-    paso:"Paso 3"
+    paso: "Paso 3"
   },
   {
     i: faPeopleCarry,
     sise: "5x",
     text: "BLleva tus cosas",
-    paso:"Paso 4"
+    paso: "Paso 4"
   }]
   smserror: boolean = false;
   ngAfterViewInit(): void {
@@ -78,6 +92,7 @@ export class HomeComponent implements OnInit {
     // })
   }
   onclick() {
+
     if ($('#busqueda').val().toString().length < 4) {
       this.smserror = true;
     } else {
@@ -121,9 +136,9 @@ export class HomeComponent implements OnInit {
   getCurrentLocation() {
     if ("geolocation" in navigator) {
       /* la geolocalización está disponible */
-      navigator.geolocation.getCurrentPosition((position)=>{
+      navigator.geolocation.getCurrentPosition((position) => {
         //Cambiar la localizcion... Cambiar de lugar
-      }, (error)=>{
+      }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
             $('#modalerror').modal('show');
@@ -191,5 +206,5 @@ export interface Icons {
   i: IconProp,
   sise: SizeProp,
   text: String,
-  paso:String
+  paso: String
 }

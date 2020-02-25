@@ -4,31 +4,35 @@
       <div class="card mb-3 lista bg-white">
         <div class="card-body" style="color:#FF6C2F">
           <div class="d-flex justify-content-center">
-            <h1>Tu reserva esta confirmada</h1>
+            <h1 class="w-100 text-center" style="color: #3aaf73;">Tu reserva esta confirmada</h1>
           </div>
           <div class="card-body">
             <div class="row d-flex justify-content-center">
               <div>
-                <h3>Código de confirmación:</h3>
                 <div>
                   <div class="d-flex justify-content-center">
-                    <ngx-qrcode [qrc-value]=ngxQrcode2></ngx-qrcode>
+                    <img src="assets/reservaconfirmada.svg" alt="" srcset="">
                   </div>
-
+                  <div class="text-center">
+                    <span>Código</span>
+                  </div>
                   <div class="text-center">
                     <h1>{{this.reservas.reserva_codigo}}</h1>
                   </div>
-                  <span>Fecha Mudanza</span><br>
+                  <span>Acerquese a la bodega para confirmar su reserve antes de</span><br>
                   <h4>{{this.reservas.reserva_fechaMudanza}}</h4>
-
+                  <span>
+                    En breve nos contactaremos con usted para concertar una cita y confirmar su bodega
+                  </span>
                   <!-- <h4>{{this.reservas.reserva_fechaMudanza}}</h4> -->
                   <span>Horario de Acceso: 06:00 am - 11:00
                     pm</span><br>
                   <!-- Trigger the modal with a button -->
                   <button type="button" class="btn btn-block" style="background-color: #FF6C2F;color: white;"
                     data-toggle="modal" data-target="#myModal">
-                    Cambiar Fecha de Mudanza
+                    Cambiar Datos
                   </button>
+                  <button (click)="cancelarReserva()" class="btn btn-danger btn-block">Cancelar Reserva</button>
 
                   <!-- Modal -->
                   <div id="myModal" class="modal fade" role="dialog">
@@ -56,24 +60,39 @@
                           <form #myform="ngForm" class="w-100" [name]="this.reservas.reserva_email"
                             (ngSubmit)="login(myform)">
                             <div *ngIf=!this.loginstatus class="alert alert-danger w-100 text-center" role="alert">
-                              Credenciales Incorrectas
+                              No se Pudieron Cambiar Los Datos
                             </div>
                             <div class="col-md-12 mt-3">
-                              <input type="text" class="form-control" disabled name="email" placeholder={{this.reservas.reserva_email}} ngModel>
+                              <h4>Correo Electronico</h4>
+                              <input type="text" class="form-control" disabled name="email"
+                                [attr.placeholder]="reservas.reserva_email" [attr.value]="reservas.reserva_email"
+                                ngModel>
                             </div>
                             <div class="row m-0">
                               <div class="col-md-6 mt-3">
-                                <input type="text" class="form-control" name="name" placeholder={{this.reservas.reserva_nombre}} ngModel>
+                                <h4>Nombre</h4>
+                                <input type="text" class="form-control" name="name"
+                                  [attr.placeholder]="reservas.reserva_nombre" [attr.value]="reservas.reserva_nombre"
+                                  ngModel>
                               </div>
                               <div class="col-md-6 mt-3">
-                                <input type="text" class="form-control" name="apellido" placeholder={{this.reservas.reserva_apellido}}ngModel>
+                                <h4>Apellidos</h4>
+                                <input type="text" class="form-control" name="apellido"
+                                  [attr.placeholder]="reservas.reserva_apellido"
+                                  [attr.value]="reservas.reserva_apellido" ngModel>
                               </div>
                             </div>
                             <div class="col-md-12 mt-3">
-                              <input type="text" class="form-control" name="phone" placeholder={{this.reservas.reserva_telefono}} ngModel>
+                              <h4>Telefono</h4>
+                              <input type="text" class="form-control" name="phone"
+                                [attr.placeholder]="reservas.reserva_telefono" [attr.value]="reservas.reserva_telefono"
+                                ngModel>
                             </div>
                             <div class="col-md-12 mt-3">
-                              <input type="date" class="form-control" [attr.value]="this.reservas.reserva_fechaMudanza" name="date" placeholder="date" ngModel>
+                              <h4>Fecha de Posible Mudanza</h4>
+                              <input type="date" class="form-control" name="date"
+                                [attr.placeholder]="reservas.reserva_fechaMudanza"
+                                [attr.value]="reservas.reserva_fechaMudanza" ngModel>
                             </div>
                             <div class="col-md-12 mt-3">
                               <button type="submit" class="form-control btn-block"
@@ -100,17 +119,12 @@
               <span>{{this.reservas.reserva_nombre}}</span><br>
               <span>{{this.reservas.reserva_telefono}}</span><br>
             </div>
-            <button style="background-color: #FF6C2F;color: white;" id="modalActivate" type="button" class="btn btn-block" data-toggle="modal"
-              data-target="#exampleModalPreview">
-              Cambiar Informacion
-            </button>
           </div>
           <div class="col-sm-6 card">
             <h1>Instalacion</h1>
             <span>{{this.reservas.unidad.local.local_nombre}}</span><br>
             <span>{{this.reservas.unidad.local.local_direccion}}</span><br>
             <span>{{this.reservas.unidad.local.local_telefono}}</span><br>
-            <button class="btn btn-danger btn-block">Cancelar Reserva</button>
           </div>
         </div>
       </div>
@@ -144,7 +158,7 @@
       </div>
     </div>
   </div>
-<!--
+  <!--
   <div class="modal fade right" id="exampleModalPreview" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
     <div class="modal-dialog momodel modal-fluid" role="document">

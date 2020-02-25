@@ -23,6 +23,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { MapComponent } from './components/map/map.component';
 import {AgmCoreModule} from '@agm/core'
 import {FormsModule} from '@angular/forms'
+import {NgxSpinnerModule} from 'ngx-spinner'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,9 +48,11 @@ import {FormsModule} from '@angular/forms'
     NgxPaginationModule,
     NgxQRCodeModule,
     GooglePlaceModule,
+    BrowserAnimationsModule,
     NgbModule,
     FormsModule,
     FontAwesomeModule,
+    NgxSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey:'AIzaSyBfl5JsPWncvaMJd0icji5e0huUNWh2aEo&amp'
     })

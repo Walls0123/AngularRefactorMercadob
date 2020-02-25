@@ -40,8 +40,17 @@ hr{
   #informacion{
     padding-left: 24px;
     padding-right: 24px;
-    padding-top: 48px;
+    padding-top: 12px;
     padding-bottom: 48px;
+  }
+  #titulo1{
+    display: none;
+  }
+  #titulo2{
+    font-size: 2em;
+  }
+  #pasos{
+    margin-top: 3px !important;
   }
 }
 

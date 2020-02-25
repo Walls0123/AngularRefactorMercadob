@@ -9,6 +9,7 @@ import { SeacrchService } from 'src/app/services/seacrch.service';
 import 'jquery'
 import { isEmpty } from 'rxjs/operators';
 import { LocalsService } from 'src/app/services/locals.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -23,7 +24,7 @@ export class SearchComponent implements OnInit {
       this.previousIW.close();
     }
   }
-  iconurl:string="assets/bodega2.png"
+  iconurl: string = "assets/bodega2.png"
   markerClick(infoWindow) {
     if (this.previousIW) {
       this.currentIW = infoWindow;
@@ -110,7 +111,12 @@ export class SearchComponent implements OnInit {
   textnext: string = 'Siguiente'
   textprevius: string = 'Anterior'
   constructor(private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, private localsservice: LocalsService, private activatedRoute: ActivatedRoute, private procecesdataservice: ProccessdataService, private searchservice: SeacrchService) {
+    private ngZone: NgZone,
+    private localsservice: LocalsService,
+    private activatedRoute: ActivatedRoute,
+    private procecesdataservice: ProccessdataService,
+    private searchservice: SeacrchService,
+    private spinnerService:NgxSpinnerService) {
     //Valid if Navigate is For Routing
     if (this.searchservice.isRoutingSearching) {
       console.log(this.activatedRoute.snapshot)
@@ -238,9 +244,9 @@ export class SearchComponent implements OnInit {
       this.searchservice.setObjectSearching(<google.maps.places.PlaceResult>(address));
       this.localsservice.getLocalsAllJson(this.searchsites[this.searchsites.length - 1]).subscribe(
         data => {
-          this.locals=JSON.parse(JSON.stringify(data));
-          this.procecesdataservice.setdataTransform(this.locals,address);
-          this.locals=this.procecesdataservice.getDataTransform();
+          this.locals = JSON.parse(JSON.stringify(data));
+          this.procecesdataservice.setdataTransform(this.locals, address);
+          this.locals = this.procecesdataservice.getDataTransform();
         }
       )
     }
@@ -266,7 +272,7 @@ export class SearchComponent implements OnInit {
     //   $('#showitems').dropdown('update')
     //   $('#showitems').dropdown().show()
     // })
-
+    this.spinnerService.show();
     $('#select-order').change(() => {
       if ($('#select-order').val() == 'distance') {
         this.locals = this.Ordernamiento();
@@ -312,6 +318,10 @@ export class SearchComponent implements OnInit {
         }
       }
     })
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinnerService.hide();
+    }, 5000);
   }
 }
 
@@ -419,7 +429,7 @@ export interface LocalEntity {
   local_estaBorrado: string;
   unidad?: (UnidadEntity | null)[] | null;
   local_distance: number,
-  shownumber:Boolean
+  shownumber: Boolean
 }
 
 export interface UnidadEntity {
