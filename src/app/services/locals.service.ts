@@ -12,6 +12,8 @@ export class LocalsService {
   private urlrod:string="http://amdigital.tech/api/"
   private urlrodseacrh:string="http://amdigital.tech/api/"
   private urlbuscar:string="http://amdigital.tech/api/ruta?ubicacion="
+  private urlbuscarmientrasnavega="http://amdigital.tech/api/locales/busquedaPosicion/"
+  private urlbuscarposicion="http://192.168.1.7/z_proyectosLaravel/MercadoBodegasDos/public/api/locales/busquedaPosicion/"
   getData():boolean{
 
     return true;
@@ -19,7 +21,9 @@ export class LocalsService {
   getLocals(id:string):Observable<any>{
     return this.http.get(this.localsurl);
   }
-
+  getLocalsByRealtime(lat:number,lng:number,rg:number,r2:number):Observable<any>{
+    return this.http.get(this.urlbuscarposicion+lat+'/'+lng+'/'+rg+'/'+r2)
+  }
   getLoclsJson():Observable<any>{
     return this.http.get(this.localsurl);
   }

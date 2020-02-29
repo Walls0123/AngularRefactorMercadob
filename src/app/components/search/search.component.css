@@ -44,7 +44,7 @@ agm-map {
 }
 
 .modal-content {
-  height: 100vh;
+  height: 100%;
   border-radius: 0 !important;
   background-color: #ececec !important
 }

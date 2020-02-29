@@ -138,6 +138,7 @@ export class HomeComponent implements OnInit {
       /* la geolocalización está disponible */
       navigator.geolocation.getCurrentPosition((position) => {
         //Cambiar la localizcion... Cambiar de lugar
+
       }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:

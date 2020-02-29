@@ -80,7 +80,7 @@ export class ProccessdataService {
   }
 
 
-  setdataTransform(object: LocalEntity[], adrres: Address) {
+  setdataTransform(object: LocalEntity[], adrres?: Address) {
     //
     if (isUndefined(adrres)) {
       let div: HTMLDivElement = document.createElement("div");

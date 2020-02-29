@@ -42,7 +42,7 @@ export class ReservaComponent implements OnInit {
     })
   }
   login(form:NgForm){
-    console.log(form.value)
+
     let modreserva:ModificarReservaEntity={
       reserva_nombre:form.value.name,
       reserva_apellido:form.value.apellido,
@@ -50,6 +50,7 @@ export class ReservaComponent implements OnInit {
       reserva_fechaMudanza:form.value.date,
       reserva_token_edition:this.reservas.reserva_token_edition
     };
+
     this.loginservice.modificarReserva(modreserva).toPromise().then((res)=>{
       console.log(res)
       let re=JSON.parse(res.toString());

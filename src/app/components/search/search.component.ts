@@ -1,15 +1,17 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProccessdataService } from 'src/app/services/proccessdata.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { MapsAPILoader, AgmInfoWindow } from '@agm/core';
+import { MapsAPILoader, AgmInfoWindow, MapTypeControlOptions, LatLngBoundsLiteral, LatLngBounds, AgmMap, LatLngLiteral } from '@agm/core';
 import { Geometry } from 'ngx-google-places-autocomplete/objects/geometry';
 import { SeacrchService } from 'src/app/services/seacrch.service';
 import 'jquery'
 import { isEmpty } from 'rxjs/operators';
 import { LocalsService } from 'src/app/services/locals.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { BoundsMap } from '@agm/core/services/fit-bounds';
+import { LatLng } from 'ngx-google-places-autocomplete/objects/latLng';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -24,13 +26,14 @@ export class SearchComponent implements OnInit {
       this.previousIW.close();
     }
   }
-  iconurl: string = "assets/bodega2.png"
+  iconurl: string = "assets/bodega.png"
   markerClick(infoWindow) {
     if (this.previousIW) {
       this.currentIW = infoWindow;
       this.previousIW.close();
     }
     this.previousIW = infoWindow;
+    this.buscarmientrasnavegas=false
   }
   //**!Propeties */
   filter: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -116,7 +119,7 @@ export class SearchComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private procecesdataservice: ProccessdataService,
     private searchservice: SeacrchService,
-    private spinnerService:NgxSpinnerService) {
+    private spinnerService: NgxSpinnerService) {
     //Valid if Navigate is For Routing
     if (this.searchservice.isRoutingSearching) {
       console.log(this.activatedRoute.snapshot)
@@ -127,7 +130,7 @@ export class SearchComponent implements OnInit {
       //Consulta A la Base de Datos Si es Posible Para Filtrar
       this.activatedRoute.data.subscribe((data:
         { locals: LocalEntity[] }) => {
-        console.log(data.locals)
+        console.log(data)
         if (data.locals['status'] == 'ERROR') {
           this.locals = []
           this.procecesdataservice.setdataTransform(this.locals, <Address>(searchplace));
@@ -140,7 +143,6 @@ export class SearchComponent implements OnInit {
       let adr: Address
       this.activatedRoute.data.subscribe((data:
         { locals: LocalEntity[] }) => {
-        console.log(data)
         if (data.locals['status'] == 'ERROR') {
           this.locals = []
           this.procecesdataservice.setdataTransform(this.locals, <Address>(adr));
@@ -150,8 +152,7 @@ export class SearchComponent implements OnInit {
         }
       });
     }
-    this.currentIW = null;
-    this.previousIW = null;
+
   }
   filertLocals(f: FilterEntity, f2: FilterEntity) {
     if (f.isChecked) {
@@ -226,9 +227,15 @@ export class SearchComponent implements OnInit {
   region: string;
   pais: string;
   locals: LocalEntity[];
-  zoom: number = 10;
+  zoom: number = 13;
   lat: number = -16.4090474;
-  lng: number = -71.53745099999998
+  lng: number = -71.53745099999998;
+  latcircle: number = -16.4090474;
+  lngcircle: number = -71.53745099999998;
+  maptypeControl: MapTypeControlOptions = {
+    style: 2,
+    position: google.maps.ControlPosition.TOP_RIGHT
+  }
   agmFitBounds = true;
   locationsearch: Geometry;
   searchsites: Array<string> = ['search'];
@@ -257,6 +264,70 @@ export class SearchComponent implements OnInit {
 
     //Not Routing Change Search
   }
+  buscarmientrasnavegas: boolean = true;
+  changemarke() {
+    if (this.buscarmientrasnavegas == false) {
+      this.buscarmientrasnavegas = true
+    } else {
+      this.buscarmientrasnavegas = false
+    }
+  }
+  @ViewChild('AgmMap',{static: false}) agmMap: AgmMap;
+  ditancianortesur: number = 1;
+  distanciaesteoeste: number = 1;
+  distanciacentro: number = 1
+  color:string='Red'
+  checkMarkersInBounds(bounds: LatLngBounds, map: AgmMap) {
+
+    if (this.buscarmientrasnavegas) {
+      let divs: HTMLDivElement = document.createElement("div");
+      var placesService = new google.maps.places.PlacesService(divs)
+      // var locations:LatLngLiteral={
+      //   lat:this.lat,
+      //   lng:this.lng
+      // };
+
+      let rg=(bounds.getNorthEast().lng())-(bounds.getCenter().lng());
+      let r2=(bounds.getNorthEast().lat())-(bounds.getCenter().lat())
+      console.log(rg)
+      console.log(r2)
+      if(rg!=0){
+        this.localsservice.getLocalsByRealtime(bounds.getCenter().lat(),bounds.getCenter().lng(),r2,rg).
+        toPromise().
+        then((d:LocalEntity[])=>{
+          this.procecesdataservice.setdataTransform(d);
+          this.locals=this.procecesdataservice.getDataTransform();
+        })
+      }
+      // // console.log('puntos',bounds.toJSON())
+      // console.log('norteas',bounds.getNorthEast().toJSON())
+      // console.log('sur',bounds.getSouthWest().toJSON())
+      // console.log('centro',bounds.getCenter().toJSON())
+      let nes= new google.maps.LatLng(
+        bounds.getNorthEast().lat(),
+        bounds.getNorthEast().lng()
+      )
+
+      let center=new google.maps.LatLng(
+        bounds.getCenter().lat(),
+        bounds.getCenter().lng()
+      )
+      this.currentIW = null;
+      this.previousIW = null;
+      let distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(nes, center) / 1000;
+      this.distanciacentro=distanceInKm
+
+      this.latcircle = bounds.getCenter().lat(),
+        this.lngcircle = bounds.getCenter().lng()
+      placesService.nearbySearch({
+        location: bounds.getCenter().toJSON(),
+        radius: 50000,
+        types: ["locality"]
+      }, (result, status) => {
+        // console.log(result)
+      })
+    }
+  }
   buscarlugar() {
 
   }
@@ -272,6 +343,8 @@ export class SearchComponent implements OnInit {
     //   $('#showitems').dropdown('update')
     //   $('#showitems').dropdown().show()
     // })
+    //Seac
+
     this.spinnerService.show();
     $('#select-order').change(() => {
       if ($('#select-order').val() == 'distance') {
@@ -321,7 +394,8 @@ export class SearchComponent implements OnInit {
     setTimeout(() => {
       /** spinner ends after 5 seconds */
       this.spinnerService.hide();
-    }, 5000);
+
+    }, 1000);
   }
 }
 
@@ -420,6 +494,7 @@ export interface LocalEntity {
   local_email: string;
   local_pais: string;
   local_region: string;
+  local_provincia: string;
   local_comuna: string;
   local_direccion: string;
   usuario_id: number;
@@ -427,11 +502,11 @@ export interface LocalEntity {
   local_longitud: number;
   local_nDiasDeReserva: string;
   local_estaBorrado: string;
-  unidad?: (UnidadEntity | null)[] | null;
+  unidad?: (UnidadEntity)[] | null;
+  galeria?: (GaleriaEntity)[] | null;
   local_distance: number,
   shownumber: Boolean
 }
-
 export interface UnidadEntity {
   unidad_id: number;
   unidad_precioMensual: string;
@@ -446,4 +521,10 @@ export interface CaracteristicasEntity {
   caracteristicasUnidad_id: number;
   caracteristicasUnidad_nombre: string;
 }
+export interface GaleriaEntity {
+  galeria_id: number;
+  galeria_coleccion_orden: string;
+  local_id: number;
+}
+
 

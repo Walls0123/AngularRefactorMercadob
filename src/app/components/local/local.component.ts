@@ -15,7 +15,6 @@ export class LocalComponent implements OnInit {
   normal: boolean = true
   ngOnInit() {
     this.local.shownumber=false
-    console.log(this.local)
     if (window.matchMedia('(max-width: 576px)').matches) {
       //...
       this.responive = true;

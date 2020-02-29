@@ -148,8 +148,14 @@
     <div class="modal-dialog momodel modal-fluid" role="document">
       <div class="modal-content ">
         <div class="h-100" style="background-color: yellow;">
-          <agm-map (mapClick)="mapClick($event)" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
-            [disableDefaultUI]="false" [zoomControl]="false" [mapDraggable]="true">
+          <agm-map #amgmap [zoomControl]="true" [gestureHandling]="'greedy'" (boundsChange)="checkMarkersInBounds($event,amgmap)" [scaleControl]="true"
+            [fullscreenControl]="true" [mapTypeControl]="true" [mapTypeControlOptions]="this.maptypeControl"
+            (mapClick)="mapClick($event)" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+            [zoomControl]="false" [mapDraggable]="true">
+            <!-- <agm-circle [latitude]="this.latcircle" [longitude]="this.lngcircle" [radius]="50000">
+
+            </agm-circle> -->
+
             <agm-marker (markerClick)=markerClick(iw) *ngFor="let mar of this.locals" [latitude]="mar.local_latitud"
               [iconUrl]="this.iconurl" [longitude]="mar.local_longitud">
               <agm-info-window #iw>
@@ -198,25 +204,31 @@
             data-dismiss="modal" aria-label="close">
             <span style="color:black;font-size: 20px;"><i class="fas fa-times"></i></span></button>
         </div>
+        <button [style.background]="this.buscarmientrasnavegas === true ? '#ff6c2f' : 'white'" class="btn pl-4 pt-0 pb-0 pr-0 m-2" id="scrollEnabling" title="Enable or disable scrolling on map"
+        style="position: absolute;bottom: 25px;z-index: 999;">
+          <div class="custom-control p-2 custom-checkbox"><input (change)="changemarke()" [checked]="this.buscarmientrasnavegas" class="custom-control-input ng-valid ng-dirty ng-touched"
+              id="buscarMientrasNavega" type="checkbox"><label class="custom-control-label" for="buscarMientrasNavega">
+              Buscar mientras navega
+            </label></div>
+        </button>
       </div>
     </div>
   </div>
   <!-- Modal -->
-  <div  *ngIf="this.locals.length!=0" id="buttonfiltrosmap" class="d-flex justify-content-center">
+  <div *ngIf="this.locals.length!=0" id="buttonfiltrosmap" class="d-flex justify-content-center">
     <div class="row m-0 d-flex justify-content-center shadow-lg bg-white">
       <div>
-        <button class="btn pl-1 p-0 pt-2 pb-2" data-toggle="modal"
-              data-target="#exampleModalPreview">
+        <button class="btn pl-1 p-0 pt-2 pb-2" data-toggle="modal" data-target="#exampleModalPreview">
           <span class="iconopcion"><i class="fas fa-map-marker-alt"></i>
             <span class="letra ml-1">Mapa</span></span>
-          </button>
+        </button>
       </div>
       <div><button class="btn pl-1 p-0 pt-2 pb-2">
           <span class="iconopcion"><i class="fas fa-filter"></i><span class="ml-1 letra">Filtro</span></span>
-          </button></div>
+        </button></div>
       <div><button class="btn pl-1 p-0 pt-2 pb-2">
           <span class="iconopcion border-0"><i class="fas fa-sort"></i><span class="ml-1 letra">Ordenar</span></span>
-          </button></div>
+        </button></div>
     </div>
   </div>
   <button type="button" id="filtrosresponsive" class="btn" data-toggle="dropdown" aria-haspopup="true"
@@ -263,13 +275,6 @@
   </div>
 
 </section>
-<ngx-spinner
-bdOpacity = 0.9
-bdColor = "#ff6c2f"
-size = "default"
-color = "#fcfcfc"
-type = "pacman"
-[fullScreen] = "true"
->
-<p style="color: white" > Cargando </p>
+<ngx-spinner bdOpacity=0.9 bdColor="#ff6c2f" size="default" color="#fcfcfc" type="pacman" [fullScreen]="true">
+  <p style="color: white"> Cargando </p>
 </ngx-spinner>
