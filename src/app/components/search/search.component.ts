@@ -264,7 +264,7 @@ export class SearchComponent implements OnInit {
 
     //Not Routing Change Search
   }
-  buscarmientrasnavegas: boolean = true;
+  buscarmientrasnavegas: boolean = false;
   changemarke() {
     if (this.buscarmientrasnavegas == false) {
       this.buscarmientrasnavegas = true
