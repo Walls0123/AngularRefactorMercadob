@@ -1,0 +1,86 @@
+<div class="container-fluid" id="principal">
+  <div class="row m-0">
+    <div class="col-md-4 col-lg-4">
+      <div class="p-3 border bg-light">Lista de Empresas</div>
+      <div class="p-3 border bg-light lista" [attr.height.px]="this.heinghscroll">
+        <div class="row m-0 mb-2" *ngFor="let item of this.empresas;let i=index">
+          <div class="col-md-12 border bg-light">
+            <h1>{{item.nombre}}</h1>
+          </div>
+          <div class="col-md-12 p-3 border border-top-0 bg-light">
+            <ul *ngFor="let s of item.local" class="mb-1">
+              <h6 class="border bg-light">{{s.nombre}}</h6>
+            </ul>
+          </div>
+          <div class="col-md-12">
+            <button (click)="agregarmas($event,i)" class="btn btn-primary">{{this.textbutton}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 border bg-light">
+        <button class="btn btn-danger">Agregar Nueva Empresa</button>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="p-3 border bg-light">Lista de Reservas</div>
+      <div class="p-3 border bg-light lista" [attr.height.px]="this.heinghscroll">
+        <div class="row m-0 mb-2" *ngFor="let item of this.empresas">
+          <div class="col-md-12 border bg-light">
+            <h1>{{item.nombre}}</h1>
+          </div>
+          <div class="col-md-12 p-3 border border-top-0 bg-light">
+            <ul *ngFor="let s of item.local" class="mb-1">
+              <h6 class="border bg-light">{{s.nombre}}</h6>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 border bg-light">
+        <button class="btn btn-danger">Agregar Nueva Empresa</button>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="p-3 border bg-light">Lista de Reservas</div>
+      <div class="p-3 border bg-light lista" [attr.height.px]="this.heinghscroll">
+        <div class="row m-0 mb-2" *ngFor="let item of this.empresas">
+          <div class="col-md-12 border bg-light">
+            <h1>{{item.nombre}}</h1>
+          </div>
+          <div class="col-md-12 p-3 border border-top-0 bg-light">
+            <ul *ngFor="let s of item.local" class="mb-1">
+              <h6 class="border bg-light">{{s.nombre}}</h6>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 border bg-light">
+        <button class="btn btn-danger">Agregar Nueva Empresa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" (click)=crear() class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <router-outlet></router-outlet>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

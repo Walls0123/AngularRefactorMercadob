@@ -24,7 +24,15 @@ import { MapComponent } from './components/map/map.component';
 import {AgmCoreModule} from '@agm/core'
 import {FormsModule} from '@angular/forms'
 import {NgxSpinnerModule} from 'ngx-spinner'
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { SitedashboardComponent } from './components/dashboard/sitedashboard/sitedashboard.component';
+import { LoginComponent } from './components/dashboard/login/login.component';
+import { HeaderdashComponent } from './components/dashboard/headerdash/headerdash.component';
+import { FooterdashComponent } from './components/dashboard/footerdash/footerdash.component';
+import { HomedashComponent } from './components/dashboard/homedash/homedash.component';
+import { GestiondashComponent } from './components/dashboard/gestiondash/gestiondash.component';
+import { NewempresaComponent } from './components/dashboard/newempresa/newempresa.component';
+import { NewlocalComponent } from './components/dashboard/newlocal/newlocal.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +47,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
     ReservaComponent,
     LoginreservationComponent,
     ReservationeditComponent,
-    MapComponent
+    MapComponent,
+    SitedashboardComponent,
+    LoginComponent,
+    HeaderdashComponent,
+    FooterdashComponent,
+    HomedashComponent,
+    GestiondashComponent,
+    NewempresaComponent,
+    NewlocalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
